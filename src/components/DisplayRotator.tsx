@@ -6,7 +6,7 @@ import type { MenuData, SpecialsData } from "@/lib/types";
 import { MenuBoard } from "./MenuBoard";
 import { SpecialsBoard } from "./SpecialsBoard";
 
-const ROTATION_MS = 1_000; // 1 second
+const ROTATION_MS = 2_000; // 1 second
 
 export function DisplayRotator({
   menu,
@@ -27,7 +27,7 @@ export function DisplayRotator({
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative h-dvh overflow-hidden">
       <div
         className={`transition-opacity duration-1000 ${
           showSpecials ? "pointer-events-none opacity-0" : "opacity-100"

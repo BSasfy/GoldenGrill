@@ -20,7 +20,7 @@ function defaultSettings(): SettingsData {
   return { displayTheme: defaultDisplayTheme() };
 }
 
-function useBlobStorage(): boolean {
+function hasBlobStorage(): boolean {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 }
 
@@ -80,7 +80,7 @@ async function writeToBlob(filename: string, data: unknown): Promise<void> {
 }
 
 async function readJson<T>(filename: string, fallback: T): Promise<T> {
-  if (useBlobStorage()) {
+  if (hasBlobStorage()) {
     return readFromBlob(filename, fallback);
   }
   try {
@@ -91,7 +91,7 @@ async function readJson<T>(filename: string, fallback: T): Promise<T> {
 }
 
 async function writeJson(filename: string, data: unknown): Promise<void> {
-  if (useBlobStorage()) {
+  if (hasBlobStorage()) {
     await writeToBlob(filename, data);
     return;
   }

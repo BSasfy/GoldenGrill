@@ -27,41 +27,35 @@ export function MenuBoard({
   }, [router]);
 
   return (
-    <div className={`${tvScreenClass(theme)} flex min-h-screen flex-col px-16 py-12`}>
-      <header className="tv-header mb-10 border-b-4 pb-6">
-        <h1 className="tv-title text-7xl font-black uppercase tracking-wide">
-          {menu.title}
-        </h1>
-        {menu.tagline && (
-          <p className="tv-tagline mt-3 text-3xl">{menu.tagline}</p>
-        )}
+    <div className={`${tvScreenClass(theme)} tv-layout`}>
+      <header className="tv-header tv-header-block border-b">
+        <h1 className="tv-title font-black uppercase tracking-wide">{menu.title}</h1>
+        {menu.tagline && <p className="tv-tagline">{menu.tagline}</p>}
       </header>
 
-      <div className="grid flex-1 grid-cols-3 gap-12">
-        {menu.categories.map((category) => (
-          <section key={category.id}>
-            <h2 className="tv-category mb-6 border-b-2 pb-3 text-4xl font-bold uppercase tracking-wider">
-              {category.name}
-            </h2>
-            <ul className="space-y-5">
-              {category.items.map((item) => (
-                <li key={item.id}>
-                  <div className="flex items-baseline justify-between gap-4">
-                    <span className="tv-item-name text-3xl font-semibold">{item.name}</span>
-                    <span className="tv-price shrink-0 text-3xl font-bold">
-                      {formatPrice(item.price)}
-                    </span>
-                  </div>
-                  {item.description && (
-                    <p className="tv-description mt-1 text-xl leading-snug">
-                      {item.description}
-                    </p>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+      <div className="tv-content">
+        <div className="tv-menu-grid">
+          {menu.categories.map((category) => (
+            <section key={category.id}>
+              <h2 className="tv-category border-b font-bold uppercase tracking-wider">
+                {category.name}
+              </h2>
+              <ul className="tv-item-list">
+                {category.items.map((item) => (
+                  <li key={item.id}>
+                    <div className="flex items-baseline justify-between gap-4">
+                      <span className="tv-item-name">{item.name}</span>
+                      <span className="tv-item-price shrink-0">{formatPrice(item.price)}</span>
+                    </div>
+                    {item.description && (
+                      <p className="tv-description">{item.description}</p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   );
