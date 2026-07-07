@@ -1,8 +1,7 @@
 import { readFile, writeFile, mkdir } from "fs/promises";
 import { join } from "path";
-import { head, put } from "@vercel/blob";
-import type { MenuData, SettingsData, SpecialsData } from "./types";
-import type { DisplayTheme } from "./types";
+import { get, put } from "@vercel/blob";
+import type { DisplayTheme, MenuData, SettingsData, SpecialsData } from "./types";
 
 const DATA_DIR = join(process.cwd(), "data");
 
@@ -13,7 +12,8 @@ const FILES = {
 } as const;
 
 function defaultDisplayTheme(): DisplayTheme {
-  return process.env.NEXT_PUBLIC_DISPLAY_THEME === "bright" ? "bright" : "dark";
+  if (process.env.NEXT_PUBLIC_DISPLAY_THEME === "dark") return "dark";
+  return "bright";
 }
 
 function defaultSettings(): SettingsData {
@@ -31,29 +31,52 @@ async function readFromDisk<T>(filename: string): Promise<T> {
 
 async function writeToDisk(filename: string, data: unknown): Promise<void> {
   await mkdir(DATA_DIR, { recursive: true });
-  await writeFile(join(DATA_DIR, filename), JSON.stringify(data, null, 2), "utf-8");
+  await writeFile(
+    join(DATA_DIR, filename),
+    JSON.stringify(data, null, 2),
+    "utf-8",
+  );
 }
 
 async function readFromBlob<T>(filename: string, fallback: T): Promise<T> {
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  if (!token) return fallback;
+
   try {
-    const blobMeta = await head(`data/${filename}`, {
-      token: process.env.BLOB_READ_WRITE_TOKEN,
+    const result = await get(`data/${filename}`, {
+      access: "private",
+      token,
     });
-    const response = await fetch(blobMeta.url);
-    if (!response.ok) return fallback;
-    return (await response.json()) as T;
+    if (!result || result.statusCode !== 200 || !result.stream) {
+      return fallback;
+    }
+    const text = await new Response(result.stream).text();
+    return JSON.parse(text) as T;
   } catch {
     return fallback;
   }
 }
 
 async function writeToBlob(filename: string, data: unknown): Promise<void> {
-  await put(`data/${filename}`, JSON.stringify(data, null, 2), {
-    access: "public",
-    addRandomSuffix: false,
-    token: process.env.BLOB_READ_WRITE_TOKEN,
-    allowOverwrite: true,
-  });
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  if (!token) {
+    throw new Error(
+      "BLOB_READ_WRITE_TOKEN is not set. In Vercel, create a Blob store, connect it to this project, and ensure the token is enabled for Production.",
+    );
+  }
+
+  try {
+    await put(`data/${filename}`, JSON.stringify(data, null, 2), {
+      access: "private",
+      addRandomSuffix: false,
+      token,
+      allowOverwrite: true,
+      contentType: "application/json",
+    });
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : "Unknown error";
+    throw new Error(`Failed to save to Vercel Blob (${filename}): ${detail}`);
+  }
 }
 
 async function readJson<T>(filename: string, fallback: T): Promise<T> {

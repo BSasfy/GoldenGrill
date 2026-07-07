@@ -18,17 +18,22 @@ export function ThemeToggle({
     if (next === theme || saving) return;
     setSaving(true);
     setStatus(null);
-    const result = await onSave(next);
-    if (result.ok) {
-      setTheme(next);
-      document
-        .querySelector(".admin-page")
-        ?.classList.toggle("admin-page--dark", next === "dark");
-      setStatus("TV theme updated.");
-    } else {
-      setStatus(result.error ?? "Could not save theme.");
+    try {
+      const result = await onSave(next);
+      if (result.ok) {
+        setTheme(next);
+        document
+          .querySelector(".admin-page")
+          ?.classList.toggle("admin-page--dark", next === "dark");
+        setStatus("TV theme updated.");
+      } else {
+        setStatus(result.error ?? "Could not save theme.");
+      }
+    } catch {
+      setStatus("Could not save theme.");
+    } finally {
+      setSaving(false);
     }
-    setSaving(false);
   }
 
   return (

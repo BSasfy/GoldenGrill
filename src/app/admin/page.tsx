@@ -1,11 +1,6 @@
 import { isAdminAuthenticated } from "@/lib/auth";
 import { getDisplayTheme, getMenu, getSpecials } from "@/lib/storage";
-import {
-  logoutAction,
-  saveMenuAction,
-  saveSpecialsAction,
-  saveThemeAction,
-} from "./actions";
+import { logoutAction } from "./actions";
 import { AdminDashboard } from "./AdminDashboard";
 import { LoginForm } from "./AdminPanel";
 
@@ -51,14 +46,7 @@ export default async function AdminPage() {
           </form>
         </header>
 
-        <AdminDashboard
-          menu={menu}
-          specials={specials}
-          displayTheme={displayTheme}
-          saveMenu={saveMenuAction}
-          saveSpecials={saveSpecialsAction}
-          saveTheme={saveThemeAction}
-        />
+        <AdminDashboard menu={menu} specials={specials} displayTheme={displayTheme} />
 
         <footer className="admin-divider admin-muted mt-12 border-t pt-6 text-sm">
           <p>TV display URLs:</p>

@@ -44,10 +44,16 @@ export async function saveMenuAction(data: MenuData): Promise<{ ok: boolean; err
   if (!(await isAdminAuthenticated())) {
     return { ok: false, error: "Not authenticated" };
   }
-  await saveMenu(data);
-  revalidatePath("/menu");
-  revalidatePath("/display");
-  return { ok: true };
+  try {
+    await saveMenu(data);
+    revalidatePath("/menu");
+    revalidatePath("/display");
+    return { ok: true };
+  } catch (error) {
+    console.error("saveMenuAction failed:", error);
+    const message = error instanceof Error ? error.message : "Failed to save menu";
+    return { ok: false, error: message };
+  }
 }
 
 export async function saveSpecialsAction(
@@ -56,10 +62,16 @@ export async function saveSpecialsAction(
   if (!(await isAdminAuthenticated())) {
     return { ok: false, error: "Not authenticated" };
   }
-  await saveSpecials(data);
-  revalidatePath("/specials");
-  revalidatePath("/display");
-  return { ok: true };
+  try {
+    await saveSpecials(data);
+    revalidatePath("/specials");
+    revalidatePath("/display");
+    return { ok: true };
+  } catch (error) {
+    console.error("saveSpecialsAction failed:", error);
+    const message = error instanceof Error ? error.message : "Failed to save specials";
+    return { ok: false, error: message };
+  }
 }
 
 export async function saveThemeAction(
@@ -68,10 +80,16 @@ export async function saveThemeAction(
   if (!(await isAdminAuthenticated())) {
     return { ok: false, error: "Not authenticated" };
   }
-  const settings: SettingsData = { displayTheme: theme };
-  await saveSettings(settings);
-  revalidatePath("/display");
-  revalidatePath("/menu");
-  revalidatePath("/specials");
-  return { ok: true };
+  try {
+    const settings: SettingsData = { displayTheme: theme };
+    await saveSettings(settings);
+    revalidatePath("/display");
+    revalidatePath("/menu");
+    revalidatePath("/specials");
+    return { ok: true };
+  } catch (error) {
+    console.error("saveThemeAction failed:", error);
+    const message = error instanceof Error ? error.message : "Failed to save theme";
+    return { ok: false, error: message };
+  }
 }
