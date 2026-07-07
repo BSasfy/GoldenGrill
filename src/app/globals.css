@@ -18,9 +18,89 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
+/* TV display themes — bright (default) and dark (dim indoor lighting) */
 .tv-screen {
+  --tv-bg: #14110e;
+  --tv-fg: #f5efe6;
+  --tv-gold: #d4a853;
+  --tv-muted: #a89a88;
+  --tv-subtle: #c9bfb0;
+  --tv-border: #d4a853;
+  --tv-border-subtle: rgb(212 168 83 / 0.4);
+  --tv-card-bg: #1c1814;
+  --tv-hero-bg: rgb(212 168 83 / 0.1);
+  --tv-badge-bg: #d4a853;
+  --tv-badge-fg: #14110e;
+
   min-height: 100vh;
   min-height: 100dvh;
+  background-color: var(--tv-bg);
+  color: var(--tv-fg);
+}
+
+.tv-screen--bright {
+  --tv-bg: #faf6f0;
+  --tv-fg: #1a1510;
+  --tv-gold: #7a5c10;
+  --tv-muted: #3d352c;
+  --tv-subtle: #4a4038;
+  --tv-border: #8b6914;
+  --tv-border-subtle: rgb(139 105 20 / 0.45);
+  --tv-card-bg: #f0e8dc;
+  --tv-hero-bg: rgb(212 168 83 / 0.2);
+  --tv-badge-bg: #8b6914;
+  --tv-badge-fg: #faf6f0;
+}
+
+.tv-screen .tv-title {
+  color: var(--tv-gold);
+}
+
+.tv-screen .tv-tagline {
+  color: var(--tv-subtle);
+  font-weight: 300;
+}
+
+.tv-screen--bright .tv-tagline {
+  font-weight: 600;
+}
+
+.tv-screen .tv-category {
+  color: var(--tv-gold);
+  border-color: var(--tv-border-subtle);
+}
+
+.tv-screen .tv-price {
+  color: var(--tv-gold);
+}
+
+.tv-screen .tv-description {
+  color: var(--tv-muted);
+}
+
+.tv-screen--bright .tv-description {
+  font-size: 1.375rem;
+  line-height: 1.35;
+  font-weight: 500;
+}
+
+.tv-screen .tv-header {
+  border-color: var(--tv-border);
+}
+
+.tv-screen .tv-hero {
+  border-color: var(--tv-border);
+  background-color: var(--tv-hero-bg);
+}
+
+.tv-screen .tv-offer-card {
+  border-color: var(--tv-border-subtle);
+  background-color: var(--tv-card-bg);
+}
+
+.tv-screen .tv-badge {
+  background-color: var(--tv-badge-bg);
+  color: var(--tv-badge-fg);
 }
 
 @media (display-mode: fullscreen) {

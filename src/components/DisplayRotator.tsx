@@ -1,18 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { DisplayTheme } from "@/lib/display-theme";
 import type { MenuData, SpecialsData } from "@/lib/types";
 import { MenuBoard } from "./MenuBoard";
 import { SpecialsBoard } from "./SpecialsBoard";
 
-const ROTATION_MS = 45_000;
+const ROTATION_MS = 5_000; // 5 seconds
 
 export function DisplayRotator({
   menu,
   specials,
+  theme = "bright",
 }: {
   menu: MenuData;
   specials: SpecialsData;
+  theme?: DisplayTheme;
 }) {
   const [showSpecials, setShowSpecials] = useState(false);
 
@@ -31,7 +34,7 @@ export function DisplayRotator({
         }`}
         aria-hidden={showSpecials}
       >
-        <MenuBoard menu={menu} />
+        <MenuBoard menu={menu} theme={theme} />
       </div>
       <div
         className={`absolute inset-0 transition-opacity duration-1000 ${
@@ -39,7 +42,7 @@ export function DisplayRotator({
         }`}
         aria-hidden={!showSpecials}
       >
-        <SpecialsBoard specials={specials} />
+        <SpecialsBoard specials={specials} theme={theme} />
       </div>
     </div>
   );

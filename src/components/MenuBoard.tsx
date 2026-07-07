@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import type { DisplayTheme } from "@/lib/display-theme";
+import { tvScreenClass } from "@/lib/display-theme";
 import type { MenuData } from "@/lib/types";
 
 function formatPrice(price: string): string {
@@ -10,7 +12,13 @@ function formatPrice(price: string): string {
   return `£${trimmed}`;
 }
 
-export function MenuBoard({ menu }: { menu: MenuData }) {
+export function MenuBoard({
+  menu,
+  theme = "bright",
+}: {
+  menu: MenuData;
+  theme?: DisplayTheme;
+}) {
   const router = useRouter();
 
   useEffect(() => {
@@ -19,20 +27,20 @@ export function MenuBoard({ menu }: { menu: MenuData }) {
   }, [router]);
 
   return (
-    <div className="tv-screen flex min-h-screen flex-col bg-[#14110e] px-16 py-12 text-[#f5efe6]">
-      <header className="mb-10 border-b-4 border-[#d4a853] pb-6">
-        <h1 className="text-7xl font-black uppercase tracking-wide text-[#d4a853]">
+    <div className={`${tvScreenClass(theme)} flex min-h-screen flex-col px-16 py-12`}>
+      <header className="tv-header mb-10 border-b-4 pb-6">
+        <h1 className="tv-title text-7xl font-black uppercase tracking-wide">
           {menu.title}
         </h1>
         {menu.tagline && (
-          <p className="mt-3 text-3xl font-light text-[#c9bfb0]">{menu.tagline}</p>
+          <p className="tv-tagline mt-3 text-3xl">{menu.tagline}</p>
         )}
       </header>
 
       <div className="grid flex-1 grid-cols-3 gap-12">
         {menu.categories.map((category) => (
           <section key={category.id}>
-            <h2 className="mb-6 border-b-2 border-[#d4a853]/40 pb-3 text-4xl font-bold uppercase tracking-wider text-[#d4a853]">
+            <h2 className="tv-category mb-6 border-b-2 pb-3 text-4xl font-bold uppercase tracking-wider">
               {category.name}
             </h2>
             <ul className="space-y-5">
@@ -40,12 +48,12 @@ export function MenuBoard({ menu }: { menu: MenuData }) {
                 <li key={item.id}>
                   <div className="flex items-baseline justify-between gap-4">
                     <span className="text-3xl font-semibold">{item.name}</span>
-                    <span className="shrink-0 text-3xl font-bold text-[#d4a853]">
+                    <span className="tv-price shrink-0 text-3xl font-bold">
                       {formatPrice(item.price)}
                     </span>
                   </div>
                   {item.description && (
-                    <p className="mt-1 text-xl leading-snug text-[#a89a88]">
+                    <p className="tv-description mt-1 text-xl leading-snug">
                       {item.description}
                     </p>
                   )}

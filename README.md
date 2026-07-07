@@ -73,8 +73,18 @@ Without Blob storage, the app reads the default menu from `data/` but **admin sa
 ## Customisation
 
 - Default menu data lives in `data/menu.json` and `data/specials.json`.
-- Colours and layout are in `src/components/MenuBoard.tsx` and `SpecialsBoard.tsx`.
+- Colours and layout are in `src/app/globals.css` (TV themes) and `src/components/MenuBoard.tsx` / `SpecialsBoard.tsx`.
 - Rotation interval is 45 seconds in `src/components/DisplayRotator.tsx`.
+
+### TV theme (bright vs dark)
+
+The default **bright** theme uses a cream background, darker text, and heavier font weights for legibility in bright or glare-prone areas. For a dim indoor setting, set in `.env.local`:
+
+```bash
+NEXT_PUBLIC_DISPLAY_THEME=dark
+```
+
+Restart the dev server after changing this variable.
 
 ## Tech stack
 
