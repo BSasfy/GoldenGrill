@@ -78,13 +78,13 @@ Without Blob storage, the app reads the default menu from `data/` but **admin sa
 
 ### TV theme (bright vs dark)
 
-The default **bright** theme uses a cream background, darker text, and heavier font weights for legibility in bright or glare-prone areas. For a dim indoor setting, set in `.env.local`:
+The default **dark** theme suits dim indoor lighting. If the TV is near windows or in a bright open area, set in `.env.local`:
 
 ```bash
-NEXT_PUBLIC_DISPLAY_THEME=dark
+NEXT_PUBLIC_DISPLAY_THEME=bright
 ```
 
-Restart the dev server after changing this variable.
+The **bright** theme uses a cream background, darker text, and heavier font weights for better legibility in glare. Restart the dev server after changing this variable.
 
 ## Tech stack
 

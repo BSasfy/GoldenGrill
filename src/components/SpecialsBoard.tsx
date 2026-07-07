@@ -14,7 +14,7 @@ function formatPrice(price: string): string {
 
 export function SpecialsBoard({
   specials,
-  theme = "bright",
+  theme = "dark",
 }: {
   specials: SpecialsData;
   theme?: DisplayTheme;

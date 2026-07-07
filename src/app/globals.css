@@ -18,7 +18,7 @@ body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-/* TV display themes — bright (default) and dark (dim indoor lighting) */
+/* TV display themes — dark (default) and bright (high-glare environments) */
 .tv-screen {
   --tv-bg: #14110e;
   --tv-fg: #f5efe6;
