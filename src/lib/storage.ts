@@ -1,7 +1,13 @@
 import { readFile, writeFile, mkdir } from "fs/promises";
 import { join } from "path";
+<<<<<<< Updated upstream
 import { head, put } from "@vercel/blob";
 import type { MenuData, SpecialsData } from "./types";
+=======
+import { get, put } from "@vercel/blob";
+import type { MenuData, SettingsData, SpecialsData } from "./types";
+import type { DisplayTheme } from "./types";
+>>>>>>> Stashed changes
 
 const DATA_DIR = join(process.cwd(), "data");
 
@@ -25,13 +31,19 @@ async function writeToDisk(filename: string, data: unknown): Promise<void> {
 }
 
 async function readFromBlob<T>(filename: string, fallback: T): Promise<T> {
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  if (!token) return fallback;
+
   try {
-    const blobMeta = await head(`data/${filename}`, {
-      token: process.env.BLOB_READ_WRITE_TOKEN,
+    const result = await get(`data/${filename}`, {
+      access: "private",
+      token,
     });
-    const response = await fetch(blobMeta.url);
-    if (!response.ok) return fallback;
-    return (await response.json()) as T;
+    if (!result || result.statusCode !== 200 || !result.stream) {
+      return fallback;
+    }
+    const text = await new Response(result.stream).text();
+    return JSON.parse(text) as T;
   } catch {
     return fallback;
   }
@@ -47,7 +59,11 @@ async function writeToBlob(filename: string, data: unknown): Promise<void> {
 
   try {
     await put(`data/${filename}`, JSON.stringify(data, null, 2), {
+<<<<<<< Updated upstream
       access: "public",
+=======
+      access: "private",
+>>>>>>> Stashed changes
       addRandomSuffix: false,
       token,
       allowOverwrite: true,
