@@ -1,8 +1,6 @@
-export type DisplayTheme = "dark" | "bright";
+import type { DisplayTheme } from "@/lib/types";
 
-export function getDisplayTheme(): DisplayTheme {
-  return process.env.NEXT_PUBLIC_DISPLAY_THEME === "dark" ? "dark" : "bright";
-}
+export type { DisplayTheme };
 
 export function tvScreenClass(theme: DisplayTheme): string {
   return theme === "bright" ? "tv-screen tv-screen--bright" : "tv-screen";

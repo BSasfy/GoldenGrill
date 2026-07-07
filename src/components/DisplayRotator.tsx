@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { DisplayTheme } from "@/lib/display-theme";
+import type { DisplayTheme } from "@/lib/types";
 import type { MenuData, SpecialsData } from "@/lib/types";
 import { MenuBoard } from "./MenuBoard";
 import { SpecialsBoard } from "./SpecialsBoard";
@@ -11,7 +11,7 @@ const ROTATION_MS = 5_000; // 5 seconds
 export function DisplayRotator({
   menu,
   specials,
-  theme = "bright",
+  theme = "dark",
 }: {
   menu: MenuData;
   specials: SpecialsData;

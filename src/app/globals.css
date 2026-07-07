@@ -52,6 +52,10 @@ body {
   --tv-badge-fg: #faf6f0;
 }
 
+.tv-screen .tv-item-name {
+  color: var(--tv-fg);
+}
+
 .tv-screen .tv-title {
   color: var(--tv-gold);
 }
@@ -101,6 +105,147 @@ body {
 .tv-screen .tv-badge {
   background-color: var(--tv-badge-bg);
   color: var(--tv-badge-fg);
+}
+
+/* Admin follows the saved TV display theme. */
+.admin-page {
+  --admin-bg: #faf6f0;
+  --admin-fg: #1a1510;
+  --admin-gold: #7a5c10;
+  --admin-muted: #5c5248;
+  --admin-subtle: #4a4038;
+  --admin-border: #c9bfb0;
+  --admin-border-strong: #8b6914;
+  --admin-card-bg: #f0e8dc;
+  --admin-surface: #ffffff;
+  --admin-input-bg: #ffffff;
+  --admin-btn-bg: #8b6914;
+  --admin-btn-fg: #faf6f0;
+  --admin-btn-hover: #9a7b2c;
+
+  background-color: var(--admin-bg);
+  color: var(--admin-fg);
+}
+
+.admin-page--dark {
+  --admin-bg: #14110e;
+  --admin-fg: #f5efe6;
+  --admin-gold: #d4a853;
+  --admin-muted: #a89a88;
+  --admin-subtle: #c9bfb0;
+  --admin-border: #3d3428;
+  --admin-border-strong: #d4a853;
+  --admin-card-bg: #1c1814;
+  --admin-surface: #14110e;
+  --admin-input-bg: #1c1814;
+  --admin-btn-bg: #d4a853;
+  --admin-btn-fg: #14110e;
+  --admin-btn-hover: #e0b96a;
+}
+
+.admin-page .admin-heading {
+  color: var(--admin-gold);
+}
+
+.admin-page .admin-muted {
+  color: var(--admin-muted);
+}
+
+.admin-page .admin-subtle {
+  color: var(--admin-subtle);
+}
+
+.admin-page .admin-divider {
+  border-color: var(--admin-border);
+}
+
+.admin-page .admin-input {
+  border: 1px solid var(--admin-border);
+  background-color: var(--admin-input-bg);
+  color: var(--admin-fg);
+}
+
+.admin-page .admin-input:focus {
+  border-color: var(--admin-border-strong);
+  outline: none;
+}
+
+.admin-page .admin-input-accent {
+  border: 1px solid var(--admin-border);
+  background-color: var(--admin-input-bg);
+  color: var(--admin-gold);
+}
+
+.admin-page .admin-input-accent:focus {
+  border-color: var(--admin-border-strong);
+  outline: none;
+}
+
+.admin-page .admin-card {
+  border: 1px solid var(--admin-border);
+  background-color: var(--admin-card-bg);
+}
+
+.admin-page .admin-surface {
+  background-color: var(--admin-surface);
+}
+
+.admin-page .admin-hero-card {
+  border: 1px solid var(--admin-border);
+  background-color: var(--admin-card-bg);
+}
+
+.admin-page .admin-btn-primary {
+  background-color: var(--admin-btn-bg);
+  color: var(--admin-btn-fg);
+}
+
+.admin-page .admin-btn-primary:hover:not(:disabled) {
+  background-color: var(--admin-btn-hover);
+}
+
+.admin-page .admin-btn-secondary {
+  border: 1px solid var(--admin-border);
+  color: var(--admin-subtle);
+}
+
+.admin-page .admin-btn-secondary:hover {
+  border-color: var(--admin-border-strong);
+}
+
+.admin-page .admin-link {
+  color: var(--admin-gold);
+}
+
+.admin-page .admin-link:hover {
+  text-decoration: underline;
+}
+
+.admin-page .admin-add-btn {
+  border: 1px dashed var(--admin-border-strong);
+  color: var(--admin-gold);
+}
+
+.admin-page .admin-add-btn:hover {
+  background-color: var(--admin-card-bg);
+}
+
+.admin-page .admin-theme-toggle {
+  background-color: var(--admin-surface);
+  border: 1px solid var(--admin-border);
+}
+
+.admin-page .admin-theme-option {
+  color: var(--admin-subtle);
+}
+
+.admin-page .admin-theme-option:hover:not(:disabled) {
+  color: var(--admin-fg);
+}
+
+.admin-page .admin-theme-option-active {
+  background-color: var(--admin-btn-bg);
+  color: var(--admin-btn-fg);
 }
 
 @media (display-mode: fullscreen) {

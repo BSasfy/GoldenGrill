@@ -8,8 +8,8 @@ import {
   isAdminAuthenticated,
   verifyPassword,
 } from "@/lib/auth";
-import { getMenu, getSpecials, saveMenu, saveSpecials } from "@/lib/storage";
-import type { MenuData, SpecialsData } from "@/lib/types";
+import { getMenu, getSpecials, getSettings, saveMenu, saveSpecials, saveSettings } from "@/lib/storage";
+import type { DisplayTheme, MenuData, SettingsData, SpecialsData } from "@/lib/types";
 
 export async function loginAction(
   _prevState: { error?: string } | null,
@@ -59,5 +59,19 @@ export async function saveSpecialsAction(
   await saveSpecials(data);
   revalidatePath("/specials");
   revalidatePath("/display");
+  return { ok: true };
+}
+
+export async function saveThemeAction(
+  theme: DisplayTheme,
+): Promise<{ ok: boolean; error?: string }> {
+  if (!(await isAdminAuthenticated())) {
+    return { ok: false, error: "Not authenticated" };
+  }
+  const settings: SettingsData = { displayTheme: theme };
+  await saveSettings(settings);
+  revalidatePath("/display");
+  revalidatePath("/menu");
+  revalidatePath("/specials");
   return { ok: true };
 }

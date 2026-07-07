@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import type { DisplayTheme } from "@/lib/display-theme";
+import type { DisplayTheme } from "@/lib/types";
 import { tvScreenClass } from "@/lib/display-theme";
 import type { SpecialsData } from "@/lib/types";
 
@@ -14,7 +14,7 @@ function formatPrice(price: string): string {
 
 export function SpecialsBoard({
   specials,
-  theme = "bright",
+  theme = "dark",
 }: {
   specials: SpecialsData;
   theme?: DisplayTheme;
@@ -44,7 +44,7 @@ export function SpecialsBoard({
           )}
           <div className="flex items-end justify-between gap-8">
             <div>
-              <h2 className="text-6xl font-black">{specials.hero.name}</h2>
+              <h2 className="tv-item-name text-6xl font-black">{specials.hero.name}</h2>
               {specials.hero.description && (
                 <p className="tv-tagline mt-4 max-w-3xl text-3xl leading-snug">
                   {specials.hero.description}
@@ -62,7 +62,7 @@ export function SpecialsBoard({
             {specials.offers.map((offer) => (
               <article key={offer.id} className="tv-offer-card rounded-2xl border-2 p-8">
                 <div className="flex items-baseline justify-between gap-4">
-                  <h3 className="text-4xl font-bold">{offer.name}</h3>
+                  <h3 className="tv-item-name text-4xl font-bold">{offer.name}</h3>
                   <span className="tv-price shrink-0 text-4xl font-bold">
                     {formatPrice(offer.price)}
                   </span>

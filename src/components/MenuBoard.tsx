@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import type { DisplayTheme } from "@/lib/display-theme";
+import type { DisplayTheme } from "@/lib/types";
 import { tvScreenClass } from "@/lib/display-theme";
 import type { MenuData } from "@/lib/types";
 
@@ -14,7 +14,7 @@ function formatPrice(price: string): string {
 
 export function MenuBoard({
   menu,
-  theme = "bright",
+  theme = "dark",
 }: {
   menu: MenuData;
   theme?: DisplayTheme;
@@ -47,7 +47,7 @@ export function MenuBoard({
               {category.items.map((item) => (
                 <li key={item.id}>
                   <div className="flex items-baseline justify-between gap-4">
-                    <span className="text-3xl font-semibold">{item.name}</span>
+                    <span className="tv-item-name text-3xl font-semibold">{item.name}</span>
                     <span className="tv-price shrink-0 text-3xl font-bold">
                       {formatPrice(item.price)}
                     </span>
