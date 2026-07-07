@@ -38,12 +38,25 @@ async function readFromBlob<T>(filename: string, fallback: T): Promise<T> {
 }
 
 async function writeToBlob(filename: string, data: unknown): Promise<void> {
-  await put(`data/${filename}`, JSON.stringify(data, null, 2), {
-    access: "public",
-    addRandomSuffix: false,
-    token: process.env.BLOB_READ_WRITE_TOKEN,
-    allowOverwrite: true,
-  });
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+  if (!token) {
+    throw new Error(
+      "BLOB_READ_WRITE_TOKEN is not set. In Vercel, create a Blob store, connect it to this project, and ensure the token is enabled for Production.",
+    );
+  }
+
+  try {
+    await put(`data/${filename}`, JSON.stringify(data, null, 2), {
+      access: "public",
+      addRandomSuffix: false,
+      token,
+      allowOverwrite: true,
+      contentType: "application/json",
+    });
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : "Unknown error";
+    throw new Error(`Failed to save to Vercel Blob (${filename}): ${detail}`);
+  }
 }
 
 async function readJson<T>(filename: string, fallback: T): Promise<T> {

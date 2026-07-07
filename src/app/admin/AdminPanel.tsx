@@ -55,9 +55,14 @@ export function MenuEditor({
   async function handleSave() {
     setSaving(true);
     setStatus(null);
-    const result = await onSave(menu);
-    setSaving(false);
-    setStatus(result.ok ? "Menu saved." : result.error ?? "Save failed.");
+    try {
+      const result = await onSave(menu);
+      setStatus(result.ok ? "Menu saved." : result.error ?? "Save failed.");
+    } catch {
+      setStatus("Save failed. Please try again.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -206,7 +211,14 @@ export function MenuEditor({
         + Add category
       </button>
 
-      {status && <p className="text-sm text-[#c9bfb0]">{status}</p>}
+      {status && (
+        <p
+          className={`text-sm ${status.endsWith("saved.") ? "text-[#c9bfb0]" : "text-red-400"}`}
+          role={status.endsWith("saved.") ? undefined : "alert"}
+        >
+          {status}
+        </p>
+      )}
     </section>
   );
 }
@@ -225,9 +237,14 @@ export function SpecialsEditor({
   async function handleSave() {
     setSaving(true);
     setStatus(null);
-    const result = await onSave(specials);
-    setSaving(false);
-    setStatus(result.ok ? "Specials saved." : result.error ?? "Save failed.");
+    try {
+      const result = await onSave(specials);
+      setStatus(result.ok ? "Specials saved." : result.error ?? "Save failed.");
+    } catch {
+      setStatus("Save failed. Please try again.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -366,7 +383,14 @@ export function SpecialsEditor({
         </button>
       </div>
 
-      {status && <p className="text-sm text-[#c9bfb0]">{status}</p>}
+      {status && (
+        <p
+          className={`text-sm ${status.endsWith("saved.") ? "text-[#c9bfb0]" : "text-red-400"}`}
+          role={status.endsWith("saved.") ? undefined : "alert"}
+        >
+          {status}
+        </p>
+      )}
     </section>
   );
 }
