@@ -1,4 +1,4 @@
-import { DisplayRotator } from "@/components/DisplayRotator";
+import { DisplayPageClient } from "./DisplayPageClient";
 import { getDisplayTheme, getMenu, getSpecials } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
@@ -9,5 +9,5 @@ export default async function DisplayPage() {
     getSpecials(),
     getDisplayTheme(),
   ]);
-  return <DisplayRotator menu={menu} specials={specials} theme={theme} />;
+  return <DisplayPageClient menu={menu} specials={specials} initialTheme={theme} />;
 }
