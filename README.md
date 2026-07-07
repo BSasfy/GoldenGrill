@@ -78,13 +78,13 @@ Without Blob storage, the app reads the default menu from `data/` but **admin sa
 
 ### TV theme (bright vs dark)
 
-The default **bright** theme uses a cream background, darker text, and heavier font weights for legibility in bright or glare-prone areas. For a dim indoor setting, set in `.env.local`:
+Use the **TV display theme** toggle at the top of `/admin` to switch between light and dark on the live TV (`/display`, `/menu`, `/specials`). The choice is saved and picked up within a few minutes.
+
+For a default before any admin save, you can optionally set in `.env.local`:
 
 ```bash
-NEXT_PUBLIC_DISPLAY_THEME=dark
+NEXT_PUBLIC_DISPLAY_THEME=bright
 ```
-
-Restart the dev server after changing this variable.
 
 ## Tech stack
 

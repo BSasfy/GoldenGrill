@@ -29,3 +29,9 @@ export interface SpecialsData {
   hero: SpecialOffer & { badge?: string };
   offers: SpecialOffer[];
 }
+
+export type DisplayTheme = "dark" | "bright";
+
+export interface SettingsData {
+  displayTheme: DisplayTheme;
+}

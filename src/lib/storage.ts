@@ -1,14 +1,24 @@
 import { readFile, writeFile, mkdir } from "fs/promises";
 import { join } from "path";
 import { get, put } from "@vercel/blob";
-import type { MenuData, SpecialsData } from "./types";
+import type { DisplayTheme, MenuData, SettingsData, SpecialsData } from "./types";
 
 const DATA_DIR = join(process.cwd(), "data");
 
 const FILES = {
   menu: "menu.json",
   specials: "specials.json",
+  settings: "settings.json",
 } as const;
+
+function defaultDisplayTheme(): DisplayTheme {
+  if (process.env.NEXT_PUBLIC_DISPLAY_THEME === "dark") return "dark";
+  return "bright";
+}
+
+function defaultSettings(): SettingsData {
+  return { displayTheme: defaultDisplayTheme() };
+}
 
 function useBlobStorage(): boolean {
   return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
@@ -114,4 +124,17 @@ export async function getSpecials(): Promise<SpecialsData> {
 
 export async function saveSpecials(data: SpecialsData): Promise<void> {
   await writeJson(FILES.specials, data);
+}
+
+export async function getSettings(): Promise<SettingsData> {
+  return readJson<SettingsData>(FILES.settings, defaultSettings());
+}
+
+export async function saveSettings(data: SettingsData): Promise<void> {
+  await writeJson(FILES.settings, data);
+}
+
+export async function getDisplayTheme(): Promise<DisplayTheme> {
+  const settings = await getSettings();
+  return settings.displayTheme;
 }

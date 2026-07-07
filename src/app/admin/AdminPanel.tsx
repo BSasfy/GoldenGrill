@@ -9,7 +9,7 @@ export function LoginForm() {
   return (
     <form action={formAction} className="mx-auto w-full max-w-md space-y-4">
       <div>
-        <label htmlFor="password" className="mb-2 block text-sm font-medium text-[#c9bfb0]">
+        <label htmlFor="password" className="admin-subtle mb-2 block text-sm font-medium">
           Admin password
         </label>
         <input
@@ -18,18 +18,18 @@ export function LoginForm() {
           type="password"
           required
           autoFocus
-          className="w-full rounded-lg border border-[#3d3428] bg-[#1c1814] px-4 py-3 text-[#f5efe6] outline-none focus:border-[#d4a853]"
+          className="admin-input w-full rounded-lg px-4 py-3 outline-none"
         />
       </div>
       {state?.error && (
-        <p className="text-sm text-red-400" role="alert">
+        <p className="text-sm text-red-600" role="alert">
           {state.error}
         </p>
       )}
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-lg bg-[#d4a853] px-4 py-3 font-semibold text-[#14110e] transition hover:bg-[#e0b96a] disabled:opacity-60"
+        className="admin-btn-primary w-full rounded-lg px-4 py-3 font-semibold transition disabled:opacity-60"
       >
         {pending ? "Signing in…" : "Sign in"}
       </button>
@@ -68,12 +68,12 @@ export function MenuEditor({
   return (
     <section className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-[#d4a853]">Main menu</h2>
+        <h2 className="admin-heading text-2xl font-bold">Main menu</h2>
         <button
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="rounded-lg bg-[#d4a853] px-5 py-2 font-semibold text-[#14110e] hover:bg-[#e0b96a] disabled:opacity-60"
+          className="admin-btn-primary rounded-lg px-5 py-2 font-semibold transition disabled:opacity-60"
         >
           {saving ? "Saving…" : "Save menu"}
         </button>
@@ -81,25 +81,25 @@ export function MenuEditor({
 
       <div className="grid gap-4 md:grid-cols-2">
         <label className="block">
-          <span className="mb-1 block text-sm text-[#a89a88]">Restaurant name</span>
+          <span className="admin-muted mb-1 block text-sm">Restaurant name</span>
           <input
             value={menu.title}
             onChange={(e) => setMenu({ ...menu, title: e.target.value })}
-            className="w-full rounded-lg border border-[#3d3428] bg-[#1c1814] px-3 py-2 text-[#f5efe6]"
+            className="admin-input w-full rounded-lg px-3 py-2"
           />
         </label>
         <label className="block">
-          <span className="mb-1 block text-sm text-[#a89a88]">Tagline</span>
+          <span className="admin-muted mb-1 block text-sm">Tagline</span>
           <input
             value={menu.tagline ?? ""}
             onChange={(e) => setMenu({ ...menu, tagline: e.target.value })}
-            className="w-full rounded-lg border border-[#3d3428] bg-[#1c1814] px-3 py-2 text-[#f5efe6]"
+            className="admin-input w-full rounded-lg px-3 py-2"
           />
         </label>
       </div>
 
       {menu.categories.map((category, catIndex) => (
-        <div key={category.id} className="rounded-xl border border-[#3d3428] bg-[#1c1814] p-5">
+        <div key={category.id} className="admin-card rounded-xl p-5">
           <div className="mb-4 flex items-center gap-3">
             <input
               value={category.name}
@@ -108,7 +108,7 @@ export function MenuEditor({
                 categories[catIndex] = { ...category, name: e.target.value };
                 setMenu({ ...menu, categories });
               }}
-              className="flex-1 rounded-lg border border-[#3d3428] bg-[#14110e] px-3 py-2 text-lg font-semibold text-[#d4a853]"
+              className="admin-input-accent flex-1 rounded-lg px-3 py-2 text-lg font-semibold"
             />
             <button
               type="button"
@@ -116,7 +116,7 @@ export function MenuEditor({
                 const categories = menu.categories.filter((_, i) => i !== catIndex);
                 setMenu({ ...menu, categories });
               }}
-              className="text-sm text-red-400 hover:text-red-300"
+              className="text-sm text-red-600 hover:text-red-500"
             >
               Remove category
             </button>
@@ -124,7 +124,7 @@ export function MenuEditor({
 
           <div className="space-y-3">
             {category.items.map((item, itemIndex) => (
-              <div key={item.id} className="grid gap-2 rounded-lg bg-[#14110e] p-3 md:grid-cols-[1fr_1fr_100px_auto]">
+              <div key={item.id} className="admin-surface grid gap-2 rounded-lg p-3 md:grid-cols-[1fr_1fr_100px_auto]">
                 <input
                   placeholder="Item name"
                   value={item.name}
@@ -135,7 +135,7 @@ export function MenuEditor({
                     categories[catIndex] = { ...category, items };
                     setMenu({ ...menu, categories });
                   }}
-                  className="rounded border border-[#3d3428] bg-[#1c1814] px-3 py-2 text-[#f5efe6]"
+                  className="admin-input rounded px-3 py-2"
                 />
                 <input
                   placeholder="Description"
@@ -147,7 +147,7 @@ export function MenuEditor({
                     categories[catIndex] = { ...category, items };
                     setMenu({ ...menu, categories });
                   }}
-                  className="rounded border border-[#3d3428] bg-[#1c1814] px-3 py-2 text-[#f5efe6]"
+                  className="admin-input rounded px-3 py-2"
                 />
                 <input
                   placeholder="Price"
@@ -159,7 +159,7 @@ export function MenuEditor({
                     categories[catIndex] = { ...category, items };
                     setMenu({ ...menu, categories });
                   }}
-                  className="rounded border border-[#3d3428] bg-[#1c1814] px-3 py-2 text-[#f5efe6]"
+                  className="admin-input rounded px-3 py-2"
                 />
                 <button
                   type="button"
@@ -169,7 +169,7 @@ export function MenuEditor({
                     categories[catIndex] = { ...category, items };
                     setMenu({ ...menu, categories });
                   }}
-                  className="text-sm text-red-400 hover:text-red-300"
+                  className="text-sm text-red-600 hover:text-red-500"
                 >
                   Remove
                 </button>
@@ -188,7 +188,7 @@ export function MenuEditor({
               categories[catIndex] = { ...category, items };
               setMenu({ ...menu, categories });
             }}
-            className="mt-3 text-sm text-[#d4a853] hover:underline"
+            className="admin-link mt-3 text-sm hover:underline"
           >
             + Add item
           </button>
@@ -206,14 +206,14 @@ export function MenuEditor({
             ],
           });
         }}
-        className="rounded-lg border border-dashed border-[#d4a853]/50 px-4 py-2 text-[#d4a853] hover:bg-[#d4a853]/10"
+        className="admin-add-btn rounded-lg px-4 py-2 transition"
       >
         + Add category
       </button>
 
       {status && (
         <p
-          className={`text-sm ${status.endsWith("saved.") ? "text-[#c9bfb0]" : "text-red-400"}`}
+          className={`text-sm ${status.endsWith("saved.") ? "admin-subtle" : "text-red-600"}`}
           role={status.endsWith("saved.") ? undefined : "alert"}
         >
           {status}
@@ -250,28 +250,28 @@ export function SpecialsEditor({
   return (
     <section className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-[#d4a853]">Daily specials</h2>
+        <h2 className="admin-heading text-2xl font-bold">Daily specials</h2>
         <button
           type="button"
           onClick={handleSave}
           disabled={saving}
-          className="rounded-lg bg-[#d4a853] px-5 py-2 font-semibold text-[#14110e] hover:bg-[#e0b96a] disabled:opacity-60"
+          className="admin-btn-primary rounded-lg px-5 py-2 font-semibold transition disabled:opacity-60"
         >
           {saving ? "Saving…" : "Save specials"}
         </button>
       </div>
 
       <label className="block">
-        <span className="mb-1 block text-sm text-[#a89a88]">Screen title</span>
+        <span className="admin-muted mb-1 block text-sm">Screen title</span>
         <input
           value={specials.title}
           onChange={(e) => setSpecials({ ...specials, title: e.target.value })}
-          className="w-full rounded-lg border border-[#3d3428] bg-[#1c1814] px-3 py-2 text-[#f5efe6]"
+          className="admin-input w-full rounded-lg px-3 py-2"
         />
       </label>
 
-      <div className="rounded-xl border border-[#d4a853]/40 bg-[#1c1814] p-5">
-        <h3 className="mb-4 text-lg font-semibold text-[#d4a853]">Hero offer (main deal)</h3>
+      <div className="admin-hero-card rounded-xl p-5">
+        <h3 className="admin-heading mb-4 text-lg font-semibold">Hero offer (main deal)</h3>
         <div className="grid gap-3 md:grid-cols-2">
           <input
             placeholder="Badge (e.g. Best Value)"
@@ -282,7 +282,7 @@ export function SpecialsEditor({
                 hero: { ...specials.hero, badge: e.target.value },
               })
             }
-            className="rounded border border-[#3d3428] bg-[#14110e] px-3 py-2 text-[#f5efe6]"
+            className="admin-input rounded px-3 py-2"
           />
           <input
             placeholder="Price"
@@ -293,7 +293,7 @@ export function SpecialsEditor({
                 hero: { ...specials.hero, price: e.target.value },
               })
             }
-            className="rounded border border-[#3d3428] bg-[#14110e] px-3 py-2 text-[#f5efe6]"
+            className="admin-input rounded px-3 py-2"
           />
           <input
             placeholder="Offer name"
@@ -304,7 +304,7 @@ export function SpecialsEditor({
                 hero: { ...specials.hero, name: e.target.value },
               })
             }
-            className="rounded border border-[#3d3428] bg-[#14110e] px-3 py-2 text-[#f5efe6] md:col-span-2"
+            className="admin-input rounded px-3 py-2 md:col-span-2"
           />
           <input
             placeholder="Description"
@@ -315,15 +315,15 @@ export function SpecialsEditor({
                 hero: { ...specials.hero, description: e.target.value },
               })
             }
-            className="rounded border border-[#3d3428] bg-[#14110e] px-3 py-2 text-[#f5efe6] md:col-span-2"
+            className="admin-input rounded px-3 py-2 md:col-span-2"
           />
         </div>
       </div>
 
       <div className="space-y-3">
-        <h3 className="text-lg font-semibold text-[#d4a853]">Additional offers</h3>
+        <h3 className="admin-heading text-lg font-semibold">Additional offers</h3>
         {specials.offers.map((offer, index) => (
-          <div key={offer.id} className="grid gap-2 rounded-lg bg-[#1c1814] p-3 md:grid-cols-[1fr_1fr_100px_auto]">
+          <div key={offer.id} className="admin-card grid gap-2 rounded-lg p-3 md:grid-cols-[1fr_1fr_100px_auto]">
             <input
               placeholder="Offer name"
               value={offer.name}
@@ -332,7 +332,7 @@ export function SpecialsEditor({
                 offers[index] = { ...offer, name: e.target.value };
                 setSpecials({ ...specials, offers });
               }}
-              className="rounded border border-[#3d3428] bg-[#14110e] px-3 py-2 text-[#f5efe6]"
+              className="admin-input rounded px-3 py-2"
             />
             <input
               placeholder="Description"
@@ -342,7 +342,7 @@ export function SpecialsEditor({
                 offers[index] = { ...offer, description: e.target.value };
                 setSpecials({ ...specials, offers });
               }}
-              className="rounded border border-[#3d3428] bg-[#14110e] px-3 py-2 text-[#f5efe6]"
+              className="admin-input rounded px-3 py-2"
             />
             <input
               placeholder="Price"
@@ -352,7 +352,7 @@ export function SpecialsEditor({
                 offers[index] = { ...offer, price: e.target.value };
                 setSpecials({ ...specials, offers });
               }}
-              className="rounded border border-[#3d3428] bg-[#14110e] px-3 py-2 text-[#f5efe6]"
+              className="admin-input rounded px-3 py-2"
             />
             <button
               type="button"
@@ -360,7 +360,7 @@ export function SpecialsEditor({
                 const offers = specials.offers.filter((_, i) => i !== index);
                 setSpecials({ ...specials, offers });
               }}
-              className="text-sm text-red-400 hover:text-red-300"
+              className="text-sm text-red-600 hover:text-red-500"
             >
               Remove
             </button>
@@ -377,7 +377,7 @@ export function SpecialsEditor({
               ],
             });
           }}
-          className="text-sm text-[#d4a853] hover:underline"
+          className="admin-link text-sm hover:underline"
         >
           + Add offer
         </button>
@@ -385,7 +385,7 @@ export function SpecialsEditor({
 
       {status && (
         <p
-          className={`text-sm ${status.endsWith("saved.") ? "text-[#c9bfb0]" : "text-red-400"}`}
+          className={`text-sm ${status.endsWith("saved.") ? "admin-subtle" : "text-red-600"}`}
           role={status.endsWith("saved.") ? undefined : "alert"}
         >
           {status}
