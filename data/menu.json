@@ -1,0 +1,78 @@
+{
+  "title": "Golden Grill",
+  "tagline": "Flame-grilled favourites",
+  "categories": [
+    {
+      "id": "burgers",
+      "name": "Burgers",
+      "items": [
+        {
+          "id": "classic-burger",
+          "name": "Classic Burger",
+          "description": "Beef patty, lettuce, tomato, house sauce",
+          "price": "6.50"
+        },
+        {
+          "id": "cheese-burger",
+          "name": "Cheese Burger",
+          "description": "Classic burger with melted cheddar",
+          "price": "7.00"
+        },
+        {
+          "id": "bbq-burger",
+          "name": "BBQ Burger",
+          "description": "Crispy onions, bacon, smoky BBQ sauce",
+          "price": "8.50"
+        }
+      ]
+    },
+    {
+      "id": "sides",
+      "name": "Sides",
+      "items": [
+        {
+          "id": "chips",
+          "name": "Chips",
+          "description": "Skin-on fries, lightly salted",
+          "price": "2.50"
+        },
+        {
+          "id": "onion-rings",
+          "name": "Onion Rings",
+          "description": "Crispy battered rings",
+          "price": "3.00"
+        },
+        {
+          "id": "coleslaw",
+          "name": "Coleslaw",
+          "description": "Creamy house recipe",
+          "price": "2.00"
+        }
+      ]
+    },
+    {
+      "id": "drinks",
+      "name": "Drinks",
+      "items": [
+        {
+          "id": "soft-drink",
+          "name": "Soft Drink",
+          "description": "330ml can",
+          "price": "1.80"
+        },
+        {
+          "id": "water",
+          "name": "Bottled Water",
+          "description": "500ml",
+          "price": "1.50"
+        },
+        {
+          "id": "tea-coffee",
+          "name": "Tea / Coffee",
+          "description": "Regular or large",
+          "price": "2.00"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+:root {
+  --background: #14110e;
+  --foreground: #f5efe6;
+  --gold: #d4a853;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+.tv-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+@media (display-mode: fullscreen) {
+  body {
+    overflow: hidden;
+  }
+}

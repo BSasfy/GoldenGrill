@@ -1,0 +1,24 @@
+{
+  "title": "Today's Specials",
+  "hero": {
+    "id": "lunch-deal",
+    "name": "Lunch Deal",
+    "description": "Any burger + chips + drink",
+    "price": "8.99",
+    "badge": "Best Value"
+  },
+  "offers": [
+    {
+      "id": "family-box",
+      "name": "Family Box",
+      "description": "4 burgers, 2 large chips, 4 drinks",
+      "price": "24.99"
+    },
+    {
+      "id": "student-discount",
+      "name": "Student Meal",
+      "description": "Classic burger + chips — show student ID",
+      "price": "7.50"
+    }
+  ]
+}
