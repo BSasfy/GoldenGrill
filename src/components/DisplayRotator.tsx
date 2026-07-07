@@ -6,7 +6,7 @@ import type { MenuData, SpecialsData } from "@/lib/types";
 import { MenuBoard } from "./MenuBoard";
 import { SpecialsBoard } from "./SpecialsBoard";
 
-const ROTATION_MS = 5_000; // 5 seconds
+const ROTATION_MS = 1_000; // 1 second
 
 export function DisplayRotator({
   menu,
