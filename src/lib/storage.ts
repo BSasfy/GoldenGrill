@@ -1,13 +1,7 @@
 import { readFile, writeFile, mkdir } from "fs/promises";
 import { join } from "path";
-<<<<<<< Updated upstream
-import { head, put } from "@vercel/blob";
-import type { MenuData, SpecialsData } from "./types";
-=======
 import { get, put } from "@vercel/blob";
-import type { MenuData, SettingsData, SpecialsData } from "./types";
-import type { DisplayTheme } from "./types";
->>>>>>> Stashed changes
+import type { MenuData, SpecialsData } from "./types";
 
 const DATA_DIR = join(process.cwd(), "data");
 
@@ -27,7 +21,11 @@ async function readFromDisk<T>(filename: string): Promise<T> {
 
 async function writeToDisk(filename: string, data: unknown): Promise<void> {
   await mkdir(DATA_DIR, { recursive: true });
-  await writeFile(join(DATA_DIR, filename), JSON.stringify(data, null, 2), "utf-8");
+  await writeFile(
+    join(DATA_DIR, filename),
+    JSON.stringify(data, null, 2),
+    "utf-8",
+  );
 }
 
 async function readFromBlob<T>(filename: string, fallback: T): Promise<T> {
@@ -59,11 +57,7 @@ async function writeToBlob(filename: string, data: unknown): Promise<void> {
 
   try {
     await put(`data/${filename}`, JSON.stringify(data, null, 2), {
-<<<<<<< Updated upstream
-      access: "public",
-=======
       access: "private",
->>>>>>> Stashed changes
       addRandomSuffix: false,
       token,
       allowOverwrite: true,
