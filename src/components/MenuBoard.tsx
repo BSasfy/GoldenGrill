@@ -14,7 +14,7 @@ function formatPrice(price: string): string {
 
 export function MenuBoard({
   menu,
-  theme = "bright",
+  theme = "dark",
 }: {
   menu: MenuData;
   theme?: DisplayTheme;

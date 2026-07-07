@@ -11,7 +11,7 @@ const ROTATION_MS = 5_000; // 5 seconds
 export function DisplayRotator({
   menu,
   specials,
-  theme = "bright",
+  theme = "dark",
 }: {
   menu: MenuData;
   specials: SpecialsData;

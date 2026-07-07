@@ -1,7 +1,7 @@
 export type DisplayTheme = "dark" | "bright";
 
 export function getDisplayTheme(): DisplayTheme {
-  return process.env.NEXT_PUBLIC_DISPLAY_THEME === "dark" ? "dark" : "bright";
+  return process.env.NEXT_PUBLIC_DISPLAY_THEME === "bright" ? "bright" : "dark";
 }
 
 export function tvScreenClass(theme: DisplayTheme): string {
