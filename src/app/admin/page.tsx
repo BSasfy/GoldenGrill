@@ -12,11 +12,17 @@ export default async function AdminPage() {
 
   if (!authenticated) {
     return (
-      <main className={`${adminThemeClass} flex min-h-screen items-center justify-center px-6 py-12`}>
+      <main
+        className={`${adminThemeClass} flex min-h-screen items-center justify-center px-6 py-12`}
+      >
         <div className="w-full max-w-lg">
           <div className="mb-8 text-center">
-            <h1 className="admin-heading text-3xl font-bold">Golden Grill Admin</h1>
-            <p className="admin-muted mt-2">Sign in to update the menu and daily specials</p>
+            <h1 className="admin-heading text-3xl font-bold">
+              Golden Grill Admin
+            </h1>
+            <p className="admin-muted mt-2">
+              Sign in to update the menu and daily specials
+            </p>
           </div>
           <LoginForm />
         </div>
@@ -31,9 +37,12 @@ export default async function AdminPage() {
       <div className="mx-auto max-w-5xl">
         <header className="admin-divider mb-10 flex flex-wrap items-center justify-between gap-4 border-b pb-6">
           <div>
-            <h1 className="admin-heading text-3xl font-bold">Golden Grill Admin</h1>
+            <h1 className="admin-heading text-3xl font-bold">
+              Golden Grill Admin
+            </h1>
             <p className="admin-muted mt-1">
-              Changes appear on the TV within a few minutes
+              Changes appear on the TV immediately after saving and reloading
+              the page
             </p>
           </div>
           <form action={logoutAction}>
@@ -46,7 +55,11 @@ export default async function AdminPage() {
           </form>
         </header>
 
-        <AdminDashboard menu={menu} specials={specials} displayTheme={displayTheme} />
+        <AdminDashboard
+          menu={menu}
+          specials={specials}
+          displayTheme={displayTheme}
+        />
 
         <footer className="admin-divider admin-muted mt-12 border-t pt-6 text-sm">
           <p>TV display URLs:</p>
