@@ -161,7 +161,12 @@ export function MenuEditor({
 
           <div className="space-y-3">
             {category.items.map((item, itemIndex) => (
-              <div key={item.id} className="admin-surface grid gap-2 rounded-lg p-3 md:grid-cols-[1fr_1fr_100px_auto]">
+              <div
+                key={item.id}
+                className={`admin-surface grid gap-2 rounded-lg p-3 md:grid-cols-[1fr_1fr_100px_auto] ${
+                  item.hidden ? "opacity-50" : ""
+                }`}
+              >
                 <input
                   placeholder="Item name"
                   value={item.name}
@@ -216,6 +221,20 @@ export function MenuEditor({
                     aria-label={`Move ${item.name || "item"} down`}
                   >
                     ↓
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const categories = [...menu.categories];
+                      const items = [...category.items];
+                      items[itemIndex] = { ...item, hidden: !item.hidden };
+                      categories[catIndex] = { ...category, items };
+                      setMenu({ ...menu, categories });
+                    }}
+                    className="admin-btn-secondary rounded-md px-2 py-1 text-xs"
+                    aria-pressed={Boolean(item.hidden)}
+                  >
+                    {item.hidden ? "Show" : "Hide"}
                   </button>
                   <button
                     type="button"

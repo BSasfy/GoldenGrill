@@ -41,7 +41,7 @@ export function MenuBoard({
                 {category.name}
               </h2>
               <ul className="tv-item-list">
-                {category.items.map((item) => (
+                {category.items.filter((item) => !item.hidden).map((item) => (
                   <li key={item.id}>
                     <div className="flex items-baseline justify-between gap-4">
                       <span className="tv-item-name">{item.name}</span>
