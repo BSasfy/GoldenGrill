@@ -25,7 +25,9 @@ export function ThemeToggle({
         document
           .querySelector(".admin-page")
           ?.classList.toggle("admin-page--dark", next === "dark");
-        setStatus("TV theme updated.");
+        setStatus(
+          "TV theme updated. Please refresh the page on the TV to see the changes.",
+        );
       } else {
         setStatus(result.error ?? "Could not save theme.");
       }
@@ -42,8 +44,8 @@ export function ThemeToggle({
         <div>
           <h2 className="admin-heading text-2xl font-bold">TV display theme</h2>
           <p className="admin-muted mt-1 text-sm">
-            Controls how the menu looks on the live TV. Changes apply within a few
-            minutes.
+            Controls how the menu looks on the live TV. Changes apply
+            immediately.
           </p>
         </div>
         <div

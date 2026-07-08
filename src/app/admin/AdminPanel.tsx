@@ -65,6 +65,25 @@ export function MenuEditor({
     }
   }
 
+  function moveCategory(fromIndex: number, toIndex: number) {
+    if (toIndex < 0 || toIndex >= menu.categories.length) return;
+    const categories = [...menu.categories];
+    const [moved] = categories.splice(fromIndex, 1);
+    categories.splice(toIndex, 0, moved);
+    setMenu({ ...menu, categories });
+  }
+
+  function moveItem(catIndex: number, fromIndex: number, toIndex: number) {
+    const category = menu.categories[catIndex];
+    if (!category || toIndex < 0 || toIndex >= category.items.length) return;
+    const categories = [...menu.categories];
+    const items = [...category.items];
+    const [moved] = items.splice(fromIndex, 1);
+    items.splice(toIndex, 0, moved);
+    categories[catIndex] = { ...category, items };
+    setMenu({ ...menu, categories });
+  }
+
   return (
     <section className="space-y-6">
       <div className="flex items-center justify-between">
@@ -110,6 +129,24 @@ export function MenuEditor({
               }}
               className="admin-input-accent flex-1 rounded-lg px-3 py-2 text-lg font-semibold"
             />
+            <button
+              type="button"
+              onClick={() => moveCategory(catIndex, catIndex - 1)}
+              disabled={catIndex === 0}
+              className="admin-btn-secondary rounded-md px-2 py-1 text-xs disabled:opacity-40"
+              aria-label={`Move ${category.name} up`}
+            >
+              ↑
+            </button>
+            <button
+              type="button"
+              onClick={() => moveCategory(catIndex, catIndex + 1)}
+              disabled={catIndex === menu.categories.length - 1}
+              className="admin-btn-secondary rounded-md px-2 py-1 text-xs disabled:opacity-40"
+              aria-label={`Move ${category.name} down`}
+            >
+              ↓
+            </button>
             <button
               type="button"
               onClick={() => {
@@ -161,18 +198,38 @@ export function MenuEditor({
                   }}
                   className="admin-input rounded px-3 py-2"
                 />
-                <button
-                  type="button"
-                  onClick={() => {
-                    const categories = [...menu.categories];
-                    const items = category.items.filter((_, i) => i !== itemIndex);
-                    categories[catIndex] = { ...category, items };
-                    setMenu({ ...menu, categories });
-                  }}
-                  className="text-sm text-red-600 hover:text-red-500"
-                >
-                  Remove
-                </button>
+                <div className="flex items-center gap-1 md:flex-col md:items-stretch">
+                  <button
+                    type="button"
+                    onClick={() => moveItem(catIndex, itemIndex, itemIndex - 1)}
+                    disabled={itemIndex === 0}
+                    className="admin-btn-secondary rounded-md px-2 py-1 text-xs disabled:opacity-40"
+                    aria-label={`Move ${item.name || "item"} up`}
+                  >
+                    ↑
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => moveItem(catIndex, itemIndex, itemIndex + 1)}
+                    disabled={itemIndex === category.items.length - 1}
+                    className="admin-btn-secondary rounded-md px-2 py-1 text-xs disabled:opacity-40"
+                    aria-label={`Move ${item.name || "item"} down`}
+                  >
+                    ↓
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const categories = [...menu.categories];
+                      const items = category.items.filter((_, i) => i !== itemIndex);
+                      categories[catIndex] = { ...category, items };
+                      setMenu({ ...menu, categories });
+                    }}
+                    className="text-sm text-red-600 hover:text-red-500"
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             ))}
           </div>
