@@ -9,6 +9,7 @@ export interface MenuItem {
 export interface MenuCategory {
   id: string;
   name: string;
+  hidden?: boolean;
   items: MenuItem[];
 }
 

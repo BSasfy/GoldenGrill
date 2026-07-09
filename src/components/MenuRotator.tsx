@@ -1,24 +1,19 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import type { DisplayTheme } from "@/lib/types";
-import type { MenuData, SpecialsData } from "@/lib/types";
+import type { DisplayTheme, MenuData } from "@/lib/types";
 import { paginateMenuCategories } from "@/lib/menu-pagination";
 import { MenuBoard } from "./MenuBoard";
-import { SpecialsBoard } from "./SpecialsBoard";
 
 const ROTATION_MS = 2_000;
 
-export function DisplayRotator({
+export function MenuRotator({
   menu,
-  specials,
   theme = "dark",
 }: {
   menu: MenuData;
-  specials: SpecialsData;
   theme?: DisplayTheme;
 }) {
-  const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
   const visibleCategories = useMemo(
     () => menu.categories.filter((category) => !category.hidden),
     [menu.categories],
@@ -27,41 +22,38 @@ export function DisplayRotator({
     () => paginateMenuCategories(visibleCategories),
     [visibleCategories],
   );
-  const totalScreens = menuPages.length + 1; // +1 for specials
-  const visibleScreenIndex = currentScreenIndex % totalScreens;
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   useEffect(() => {
+    if (menuPages.length <= 1) return;
+
     const timer = setInterval(() => {
-      setCurrentScreenIndex((current) => (current + 1) % totalScreens);
+      setCurrentPageIndex((current) => (current + 1) % menuPages.length);
     }, ROTATION_MS);
     return () => clearInterval(timer);
-  }, [totalScreens]);
+  }, [menuPages.length]);
+
+  useEffect(() => {
+    if (currentPageIndex >= menuPages.length) {
+      setCurrentPageIndex(0);
+    }
+  }, [currentPageIndex, menuPages.length]);
 
   return (
     <div className="relative h-dvh overflow-hidden">
       {menuPages.map((categories, pageIndex) => (
         <div
-          key={`menu-page-${pageIndex}`}
+          key={`menu-only-page-${pageIndex}`}
           className={`absolute inset-0 transition-opacity duration-1000 ${
-            visibleScreenIndex === pageIndex
+            currentPageIndex === pageIndex
               ? "opacity-100"
               : "pointer-events-none opacity-0"
           }`}
-          aria-hidden={visibleScreenIndex !== pageIndex}
+          aria-hidden={currentPageIndex !== pageIndex}
         >
           <MenuBoard menu={menu} categories={categories} theme={theme} />
         </div>
       ))}
-      <div
-        className={`absolute inset-0 transition-opacity duration-1000 ${
-          visibleScreenIndex === totalScreens - 1
-            ? "opacity-100"
-            : "pointer-events-none opacity-0"
-        }`}
-        aria-hidden={visibleScreenIndex !== totalScreens - 1}
-      >
-        <SpecialsBoard specials={specials} theme={theme} />
-      </div>
     </div>
   );
 }

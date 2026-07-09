@@ -68,13 +68,13 @@ export default async function AdminPage() {
               <a href="/display" className="admin-link hover:underline">
                 /display
               </a>{" "}
-              — rotates between menu and specials
+              — rotates through menu pages and specials
             </li>
             <li>
               <a href="/menu" className="admin-link hover:underline">
                 /menu
               </a>{" "}
-              — main menu only
+              — main menu pages only
             </li>
             <li>
               <a href="/specials" className="admin-link hover:underline">

@@ -118,7 +118,10 @@ export function MenuEditor({
       </div>
 
       {menu.categories.map((category, catIndex) => (
-        <div key={category.id} className="admin-card rounded-xl p-5">
+        <div
+          key={category.id}
+          className={`admin-card rounded-xl p-5 ${category.hidden ? "opacity-60" : ""}`}
+        >
           <div className="mb-4 flex items-center gap-3">
             <input
               value={category.name}
@@ -146,6 +149,18 @@ export function MenuEditor({
               aria-label={`Move ${category.name} down`}
             >
               ↓
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                const categories = [...menu.categories];
+                categories[catIndex] = { ...category, hidden: !category.hidden };
+                setMenu({ ...menu, categories });
+              }}
+              className="admin-btn-secondary rounded-md px-2 py-1 text-xs"
+              aria-pressed={Boolean(category.hidden)}
+            >
+              {category.hidden ? "Show category" : "Hide category"}
             </button>
             <button
               type="button"

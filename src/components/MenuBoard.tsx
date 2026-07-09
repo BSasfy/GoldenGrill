@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import type { DisplayTheme } from "@/lib/types";
 import { tvScreenClass } from "@/lib/display-theme";
-import type { MenuData } from "@/lib/types";
+import type { MenuCategory, MenuData } from "@/lib/types";
 
 function formatPrice(price: string): string {
   const trimmed = price.trim();
@@ -15,9 +15,11 @@ function formatPrice(price: string): string {
 export function MenuBoard({
   menu,
   theme = "dark",
+  categories = menu.categories,
 }: {
   menu: MenuData;
   theme?: DisplayTheme;
+  categories?: MenuCategory[];
 }) {
   const router = useRouter();
 
@@ -35,7 +37,7 @@ export function MenuBoard({
 
       <div className="tv-content">
         <div className="tv-menu-grid">
-          {menu.categories.map((category) => (
+          {categories.filter((category) => !category.hidden).map((category) => (
             <section key={category.id}>
               <h2 className="tv-category border-b font-bold uppercase tracking-wider">
                 {category.name}
