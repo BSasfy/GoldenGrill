@@ -1,12 +1,13 @@
 import { isAdminAuthenticated } from "@/lib/auth";
-import { getDisplayTheme, getMenu, getSpecials } from "@/lib/storage";
+import { getMenu, getSettings, getSpecials } from "@/lib/storage";
 import { logoutAction } from "./actions";
 import { AdminDashboard } from "./AdminDashboard";
 import { LoginForm } from "./AdminPanel";
 
 export default async function AdminPage() {
   const authenticated = await isAdminAuthenticated();
-  const displayTheme = await getDisplayTheme();
+  const settings = await getSettings();
+  const { displayTheme, displaySpeedSeconds } = settings;
   const adminThemeClass =
     displayTheme === "dark" ? "admin-page admin-page--dark" : "admin-page";
 
@@ -59,6 +60,7 @@ export default async function AdminPage() {
           menu={menu}
           specials={specials}
           displayTheme={displayTheme}
+          displaySpeedSeconds={displaySpeedSeconds}
         />
 
         <footer className="admin-divider admin-muted mt-12 border-t pt-6 text-sm">

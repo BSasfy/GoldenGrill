@@ -9,16 +9,23 @@ export function DisplayPageClient({
   menu,
   specials,
   initialTheme,
+  rotationSeconds,
 }: {
   menu: MenuData;
   specials: SpecialsData;
   initialTheme: DisplayTheme;
+  rotationSeconds: number;
 }) {
   const [theme, setTheme] = useState(initialTheme);
 
   return (
     <>
-      <DisplayRotator menu={menu} specials={specials} theme={theme} />
+      <DisplayRotator
+        menu={menu}
+        specials={specials}
+        theme={theme}
+        rotationSeconds={rotationSeconds}
+      />
 
       <div
         className="fixed bottom-4 left-4 z-50 flex items-center gap-2 rounded-lg border border-white/25 bg-black/60 p-1 text-sm text-white shadow-lg backdrop-blur-sm"

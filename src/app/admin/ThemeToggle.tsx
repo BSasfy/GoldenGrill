@@ -5,13 +5,23 @@ import type { DisplayTheme } from "@/lib/types";
 
 export function ThemeToggle({
   initialTheme,
+  initialDisplaySpeedSeconds,
   onSave,
+  onSaveDisplaySpeed,
 }: {
   initialTheme: DisplayTheme;
+  initialDisplaySpeedSeconds: number;
   onSave: (theme: DisplayTheme) => Promise<{ ok: boolean; error?: string }>;
+  onSaveDisplaySpeed: (
+    displaySpeedSeconds: number,
+  ) => Promise<{ ok: boolean; error?: string }>;
 }) {
   const [theme, setTheme] = useState(initialTheme);
+  const [displaySpeedSeconds, setDisplaySpeedSeconds] = useState(
+    initialDisplaySpeedSeconds.toString(),
+  );
   const [saving, setSaving] = useState(false);
+  const [savingDisplaySpeed, setSavingDisplaySpeed] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
 
   async function handleSelect(next: DisplayTheme) {
@@ -35,6 +45,32 @@ export function ThemeToggle({
       setStatus("Could not save theme.");
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function handleSaveDisplaySpeed() {
+    if (savingDisplaySpeed) return;
+    const nextValue = Number(displaySpeedSeconds);
+    if (!Number.isFinite(nextValue) || nextValue <= 0) {
+      setStatus("Display speed must be a positive number of seconds.");
+      return;
+    }
+
+    setSavingDisplaySpeed(true);
+    setStatus(null);
+    try {
+      const result = await onSaveDisplaySpeed(nextValue);
+      if (result.ok) {
+        setStatus(
+          "Display speed updated. Please refresh the page on the TV to see the changes.",
+        );
+      } else {
+        setStatus(result.error ?? "Could not save display speed.");
+      }
+    } catch {
+      setStatus("Could not save display speed.");
+    } finally {
+      setSavingDisplaySpeed(false);
     }
   }
 
@@ -76,6 +112,28 @@ export function ThemeToggle({
             Dark
           </button>
         </div>
+      </div>
+      <div className="mt-5 flex flex-wrap items-end gap-3">
+        <label className="block">
+          <span className="admin-muted mb-1 block text-sm">Display speed (seconds)</span>
+          <input
+            type="number"
+            min="0.1"
+            step="0.1"
+            value={displaySpeedSeconds}
+            onChange={(e) => setDisplaySpeedSeconds(e.target.value)}
+            className="admin-input w-44 rounded-lg px-3 py-2"
+            disabled={savingDisplaySpeed}
+          />
+        </label>
+        <button
+          type="button"
+          onClick={handleSaveDisplaySpeed}
+          disabled={savingDisplaySpeed}
+          className="admin-btn-primary rounded-lg px-4 py-2 text-sm font-semibold transition disabled:opacity-60"
+        >
+          {savingDisplaySpeed ? "Saving…" : "Save display speed"}
+        </button>
       </div>
       {status && <p className="admin-subtle mt-3 text-sm">{status}</p>}
     </section>

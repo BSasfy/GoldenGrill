@@ -81,7 +81,8 @@ export async function saveThemeAction(
     return { ok: false, error: "Not authenticated" };
   }
   try {
-    const settings: SettingsData = { displayTheme: theme };
+    const currentSettings = await getSettings();
+    const settings: SettingsData = { ...currentSettings, displayTheme: theme };
     await saveSettings(settings);
     revalidatePath("/display");
     revalidatePath("/menu");
@@ -90,6 +91,35 @@ export async function saveThemeAction(
   } catch (error) {
     console.error("saveThemeAction failed:", error);
     const message = error instanceof Error ? error.message : "Failed to save theme";
+    return { ok: false, error: message };
+  }
+}
+
+export async function saveDisplaySpeedAction(
+  displaySpeedSeconds: number,
+): Promise<{ ok: boolean; error?: string }> {
+  if (!(await isAdminAuthenticated())) {
+    return { ok: false, error: "Not authenticated" };
+  }
+
+  if (!Number.isFinite(displaySpeedSeconds) || displaySpeedSeconds <= 0) {
+    return { ok: false, error: "Display speed must be a positive number of seconds." };
+  }
+
+  try {
+    const currentSettings = await getSettings();
+    const settings: SettingsData = {
+      ...currentSettings,
+      displaySpeedSeconds,
+    };
+    await saveSettings(settings);
+    revalidatePath("/display");
+    revalidatePath("/menu");
+    return { ok: true };
+  } catch (error) {
+    console.error("saveDisplaySpeedAction failed:", error);
+    const message =
+      error instanceof Error ? error.message : "Failed to save display speed";
     return { ok: false, error: message };
   }
 }

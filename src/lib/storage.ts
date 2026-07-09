@@ -17,7 +17,7 @@ function defaultDisplayTheme(): DisplayTheme {
 }
 
 function defaultSettings(): SettingsData {
-  return { displayTheme: defaultDisplayTheme() };
+  return { displayTheme: defaultDisplayTheme(), displaySpeedSeconds: 2 };
 }
 
 function hasBlobStorage(): boolean {
@@ -127,7 +127,14 @@ export async function saveSpecials(data: SpecialsData): Promise<void> {
 }
 
 export async function getSettings(): Promise<SettingsData> {
-  return readJson<SettingsData>(FILES.settings, defaultSettings());
+  const settings = await readJson<SettingsData>(FILES.settings, defaultSettings());
+  return {
+    displayTheme: settings.displayTheme ?? defaultDisplayTheme(),
+    displaySpeedSeconds:
+      typeof settings.displaySpeedSeconds === "number" && settings.displaySpeedSeconds > 0
+        ? settings.displaySpeedSeconds
+        : 2,
+  };
 }
 
 export async function saveSettings(data: SettingsData): Promise<void> {
@@ -137,4 +144,9 @@ export async function saveSettings(data: SettingsData): Promise<void> {
 export async function getDisplayTheme(): Promise<DisplayTheme> {
   const settings = await getSettings();
   return settings.displayTheme;
+}
+
+export async function getDisplaySpeedSeconds(): Promise<number> {
+  const settings = await getSettings();
+  return settings.displaySpeedSeconds;
 }

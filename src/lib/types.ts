@@ -36,4 +36,5 @@ export type DisplayTheme = "dark" | "bright";
 
 export interface SettingsData {
   displayTheme: DisplayTheme;
+  displaySpeedSeconds: number;
 }

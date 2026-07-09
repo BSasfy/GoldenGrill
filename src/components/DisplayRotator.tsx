@@ -7,16 +7,16 @@ import { paginateMenuCategories } from "@/lib/menu-pagination";
 import { MenuBoard } from "./MenuBoard";
 import { SpecialsBoard } from "./SpecialsBoard";
 
-const ROTATION_MS = 2_000;
-
 export function DisplayRotator({
   menu,
   specials,
   theme = "dark",
+  rotationSeconds = 2,
 }: {
   menu: MenuData;
   specials: SpecialsData;
   theme?: DisplayTheme;
+  rotationSeconds?: number;
 }) {
   const [currentScreenIndex, setCurrentScreenIndex] = useState(0);
   const visibleCategories = useMemo(
@@ -29,13 +29,14 @@ export function DisplayRotator({
   );
   const totalScreens = menuPages.length + 1; // +1 for specials
   const visibleScreenIndex = currentScreenIndex % totalScreens;
+  const rotationMs = Math.max(rotationSeconds, 0.1) * 1000;
 
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentScreenIndex((current) => (current + 1) % totalScreens);
-    }, ROTATION_MS);
+    }, rotationMs);
     return () => clearInterval(timer);
-  }, [totalScreens]);
+  }, [rotationMs, totalScreens]);
 
   return (
     <div className="relative h-dvh overflow-hidden">

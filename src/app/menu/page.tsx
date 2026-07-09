@@ -1,9 +1,15 @@
 import { MenuRotator } from "@/components/MenuRotator";
-import { getDisplayTheme, getMenu } from "@/lib/storage";
+import { getMenu, getSettings } from "@/lib/storage";
 
 export const dynamic = "force-dynamic";
 
 export default async function MenuPage() {
-  const [menu, theme] = await Promise.all([getMenu(), getDisplayTheme()]);
-  return <MenuRotator menu={menu} theme={theme} />;
+  const [menu, settings] = await Promise.all([getMenu(), getSettings()]);
+  return (
+    <MenuRotator
+      menu={menu}
+      theme={settings.displayTheme}
+      rotationSeconds={settings.displaySpeedSeconds}
+    />
+  );
 }
