@@ -84,6 +84,28 @@ export function MenuEditor({
     setMenu({ ...menu, categories });
   }
 
+  function addItem(catIndex: number, afterIndex?: number) {
+    const category = menu.categories[catIndex];
+    if (!category) return;
+
+    const itemId = newId();
+    const newItem = { id: itemId, name: "", description: "", price: "" };
+    const categories = [...menu.categories];
+    const items = [...category.items];
+    const insertAt =
+      typeof afterIndex === "number" ? afterIndex + 1 : items.length;
+    items.splice(insertAt, 0, newItem);
+    categories[catIndex] = { ...category, items };
+    setMenu({ ...menu, categories });
+
+    requestAnimationFrame(() => {
+      const input = document.querySelector<HTMLInputElement>(
+        `[data-item-name="${itemId}"]`,
+      );
+      input?.focus();
+    });
+  }
+
   return (
     <section className="space-y-6">
       <div className="flex items-center justify-between">
@@ -122,7 +144,7 @@ export function MenuEditor({
           key={category.id}
           className={`admin-card rounded-xl p-5 ${category.hidden ? "opacity-60" : ""}`}
         >
-          <div className="mb-4 flex items-center gap-3">
+          <div className="mb-4 flex flex-wrap items-center gap-3">
             <input
               value={category.name}
               onChange={(e) => {
@@ -130,8 +152,16 @@ export function MenuEditor({
                 categories[catIndex] = { ...category, name: e.target.value };
                 setMenu({ ...menu, categories });
               }}
-              className="admin-input-accent flex-1 rounded-lg px-3 py-2 text-lg font-semibold"
+              className="admin-input-accent min-w-[12rem] flex-1 rounded-lg px-3 py-2 text-lg font-semibold"
             />
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={saving}
+              className="admin-btn-primary rounded-lg px-4 py-2 text-sm font-semibold transition disabled:opacity-60"
+            >
+              {saving ? "Saving…" : "Save menu"}
+            </button>
             <button
               type="button"
               onClick={() => moveCategory(catIndex, catIndex - 1)}
@@ -185,12 +215,19 @@ export function MenuEditor({
                 <input
                   placeholder="Item name"
                   value={item.name}
+                  data-item-name={item.id}
                   onChange={(e) => {
                     const categories = [...menu.categories];
                     const items = [...category.items];
                     items[itemIndex] = { ...item, name: e.target.value };
                     categories[catIndex] = { ...category, items };
                     setMenu({ ...menu, categories });
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addItem(catIndex, itemIndex);
+                    }
                   }}
                   className="admin-input rounded px-3 py-2"
                 />
@@ -204,6 +241,12 @@ export function MenuEditor({
                     categories[catIndex] = { ...category, items };
                     setMenu({ ...menu, categories });
                   }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addItem(catIndex, itemIndex);
+                    }
+                  }}
                   className="admin-input rounded px-3 py-2"
                 />
                 <input
@@ -215,6 +258,12 @@ export function MenuEditor({
                     items[itemIndex] = { ...item, price: e.target.value };
                     categories[catIndex] = { ...category, items };
                     setMenu({ ...menu, categories });
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addItem(catIndex, itemIndex);
+                    }
                   }}
                   className="admin-input rounded px-3 py-2"
                 />
@@ -270,15 +319,7 @@ export function MenuEditor({
 
           <button
             type="button"
-            onClick={() => {
-              const categories = [...menu.categories];
-              const items = [
-                ...category.items,
-                { id: newId(), name: "", description: "", price: "" },
-              ];
-              categories[catIndex] = { ...category, items };
-              setMenu({ ...menu, categories });
-            }}
+            onClick={() => addItem(catIndex)}
             className="admin-link mt-3 text-sm hover:underline"
           >
             + Add item
