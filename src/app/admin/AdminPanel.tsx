@@ -41,7 +41,7 @@ function newId(): string {
   return crypto.randomUUID().slice(0, 8);
 }
 
-const MAX_ITEMS_PER_CATEGORY = 10;
+const MAX_ITEMS_PER_CATEGORY = 11;
 
 export function MenuEditor({
   initialMenu,
