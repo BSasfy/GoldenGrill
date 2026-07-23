@@ -41,6 +41,8 @@ function newId(): string {
   return crypto.randomUUID().slice(0, 8);
 }
 
+const MAX_ITEMS_PER_CATEGORY = 10;
+
 export function MenuEditor({
   initialMenu,
   onSave,
@@ -86,7 +88,7 @@ export function MenuEditor({
 
   function addItem(catIndex: number, afterIndex?: number) {
     const category = menu.categories[catIndex];
-    if (!category) return;
+    if (!category || category.items.length >= MAX_ITEMS_PER_CATEGORY) return;
 
     const itemId = newId();
     const newItem = { id: itemId, name: "", description: "", price: "" };
@@ -139,7 +141,10 @@ export function MenuEditor({
         </label>
       </div>
 
-      {menu.categories.map((category, catIndex) => (
+      {menu.categories.map((category, catIndex) => {
+        const atItemLimit = category.items.length >= MAX_ITEMS_PER_CATEGORY;
+
+        return (
         <div
           key={category.id}
           className={`admin-card rounded-xl p-5 ${category.hidden ? "opacity-60" : ""}`}
@@ -198,7 +203,7 @@ export function MenuEditor({
                 const categories = menu.categories.filter((_, i) => i !== catIndex);
                 setMenu({ ...menu, categories });
               }}
-              className="text-sm text-red-600 hover:text-red-500"
+              className="admin-btn-danger rounded-md px-2 py-1 text-xs"
             >
               Remove category
             </button>
@@ -308,7 +313,7 @@ export function MenuEditor({
                       categories[catIndex] = { ...category, items };
                       setMenu({ ...menu, categories });
                     }}
-                    className="text-sm text-red-600 hover:text-red-500"
+                    className="admin-btn-danger rounded-md px-2 py-1 text-xs"
                   >
                     Remove
                   </button>
@@ -317,15 +322,23 @@ export function MenuEditor({
             ))}
           </div>
 
-          <button
-            type="button"
-            onClick={() => addItem(catIndex)}
-            className="admin-link mt-3 text-sm hover:underline"
-          >
-            + Add item
-          </button>
+          {atItemLimit ? (
+            <p className="mt-3 text-sm text-amber-700" role="status">
+              Maximum of {MAX_ITEMS_PER_CATEGORY} items reached for this category.
+              Remove an item to add another.
+            </p>
+          ) : (
+            <button
+              type="button"
+              onClick={() => addItem(catIndex)}
+              className="admin-link mt-3 text-sm hover:underline"
+            >
+              + Add item
+            </button>
+          )}
         </div>
-      ))}
+        );
+      })}
 
       <button
         type="button"
@@ -492,7 +505,7 @@ export function SpecialsEditor({
                 const offers = specials.offers.filter((_, i) => i !== index);
                 setSpecials({ ...specials, offers });
               }}
-              className="text-sm text-red-600 hover:text-red-500"
+              className="admin-btn-danger rounded-md px-2 py-1 text-xs"
             >
               Remove
             </button>
