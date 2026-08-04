@@ -50,9 +50,11 @@ A fullscreen menu board for your TV, with a simple admin page to update daily sp
 
 The display routes (`/display`, `/menu`, `/specials`) run `DisplayKeepAlive`, which:
 
-- **Screen Wake Lock API** — keeps Chromium browsers from dimming/locking the screen (Chrome desktop, many Fire TV / Android TV Chromium browsers). Re-acquired when the tab becomes visible again.
-- **Soft reload** — `router.refresh()` every 5 minutes so admin edits appear without a full page load.
+- **Screen Wake Lock API** — keeps Chromium browsers from dimming/locking the screen (Chrome desktop, many Fire TV / Android TV Chromium browsers). Re-checked every 30s and re-acquired when the tab becomes visible again.
+- **Muted video fallback** — tiny invisible looping video as a second keep-awake signal when Wake Lock is weak or missing.
+- **Soft reload** — `router.refresh()` every 5 minutes so admin edits appear without a full page load (skipped while offline; runs again when the network returns).
 - **Hard reload** — full `location.reload()` every hour to clear memory leaks on long-running TV browsers.
+- **Fullscreen on first remote press** — tries `requestFullscreen()` after the first key/click (helps hide chrome; needs a remote OK once).
 
 Native LG webOS browsers often **do not** support Wake Lock; the OS power settings still matter most there.
 
