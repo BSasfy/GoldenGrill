@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import type { DisplayTheme } from "@/lib/types";
 import { tvScreenClass } from "@/lib/display-theme";
 import type { MenuCategory, MenuData } from "@/lib/types";
@@ -21,13 +19,6 @@ export function MenuBoard({
   theme?: DisplayTheme;
   categories?: MenuCategory[];
 }) {
-  const router = useRouter();
-
-  useEffect(() => {
-    const refresh = setInterval(() => router.refresh(), 5 * 60 * 1000);
-    return () => clearInterval(refresh);
-  }, [router]);
-
   return (
     <div className={`${tvScreenClass(theme)} tv-layout`}>
       <header className="tv-header tv-header-block border-b">

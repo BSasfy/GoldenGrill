@@ -44,9 +44,31 @@ A fullscreen menu board for your TV, with a simple admin page to update daily sp
 1. Open the TV's web browser (or connect a Fire TV Stick / Chromecast with a browser app).
 2. Navigate to your deployed URL + `/display` (e.g. `https://goldengrill.vercel.app/display`).
 3. Enter fullscreen if the browser supports it (F11 on a connected keyboard, or the browser's menu).
-4. Disable the screensaver / sleep timer on the TV so it stays on during opening hours.
+4. Disable the screensaver / sleep timer on the TV so it stays on during opening hours (see below — software alone often cannot override this).
 
-The display auto-refreshes every 5 minutes, so changes from the admin page appear without touching the TV.
+### Stay-on behaviour (in the app)
+
+The display routes (`/display`, `/menu`, `/specials`) run `DisplayKeepAlive`, which:
+
+- **Screen Wake Lock API** — keeps Chromium browsers from dimming/locking the screen (Chrome desktop, many Fire TV / Android TV Chromium browsers). Re-acquired when the tab becomes visible again.
+- **Soft reload** — `router.refresh()` every 5 minutes so admin edits appear without a full page load.
+- **Hard reload** — full `location.reload()` every hour to clear memory leaks on long-running TV browsers.
+
+Native LG webOS browsers often **do not** support Wake Lock; the OS power settings still matter most there.
+
+### If the TV still goes dark
+
+| Fix | Why it helps |
+|-----|----------------|
+| **TV sleep / screensaver off** | Settings → General / OLED Care / Eco → set Screen Off / Auto Power Off / Energy Saving to Off (or max timer). OLED TVs may force pixel care after long static content. |
+| **“Always on” / store / gallery mode** | Some LGs have Retail Mode or permanent display modes that resist sleep. |
+| **HDMI stick instead of built-in browser** | Fire Stick / Chromecast / cheap Android stick with Chrome usually has better Wake Lock support than LG webOS browser. |
+| **Disable Eco / AI brightness** | Eco sensors can dim a static menu until it looks “off”. |
+| **Fullscreen the tab** | Leave only the menu visible; avoid home screens under the browser. |
+| **Network stability** | Soft reload needs a connection; unstable Wi‑Fi can leave a blank page after refresh. Prefer Ethernet on the stick/TV if possible. |
+| **External always-on player** | Apps like Fully Kiosk (Android) can force stay-awake + reload schedules beyond what a stock browser allows. |
+
+Hard rule: Wake Lock and reloads cannot override a TV that is powered off by the manufacturer’s sleep timer. Set the panel not to sleep, then use the app keep-alive as a second line of defence.
 
 ## Deploying to Vercel
 

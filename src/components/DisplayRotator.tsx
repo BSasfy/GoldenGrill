@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { DisplayTheme } from "@/lib/types";
 import type { MenuData, SpecialsData } from "@/lib/types";
 import { paginateMenuCategories } from "@/lib/menu-pagination";
+import { DisplayKeepAlive } from "./DisplayKeepAlive";
 import { MenuBoard } from "./MenuBoard";
 import { SpecialsBoard } from "./SpecialsBoard";
 
@@ -40,6 +41,7 @@ export function DisplayRotator({
 
   return (
     <div className="relative h-dvh overflow-hidden">
+      <DisplayKeepAlive />
       {menuPages.map((categories, pageIndex) => (
         <div
           key={`menu-page-${pageIndex}`}
