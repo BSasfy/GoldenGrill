@@ -42,7 +42,7 @@ export function DisplayRotator({
   return (
     <div className="relative h-dvh overflow-hidden">
       <DisplayKeepAlive />
-      {menuPages.map((categories, pageIndex) => (
+      {menuPages.map((columns, pageIndex) => (
         <div
           key={`menu-page-${pageIndex}`}
           className={`absolute inset-0 transition-opacity duration-1000 ${
@@ -52,7 +52,7 @@ export function DisplayRotator({
           }`}
           aria-hidden={visibleScreenIndex !== pageIndex}
         >
-          <MenuBoard menu={menu} categories={categories} theme={theme} />
+          <MenuBoard menu={menu} columns={columns} theme={theme} />
         </div>
       ))}
       <div

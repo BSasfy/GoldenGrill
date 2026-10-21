@@ -10,8 +10,11 @@ export interface MenuCategory {
   id: string;
   name: string;
   hidden?: boolean;
+  stackWithPrevious?: boolean;
   items: MenuItem[];
 }
+
+export type MenuColumn = MenuCategory[];
 
 export interface MenuData {
   title: string;

@@ -67,6 +67,13 @@ body {
   align-content: start;
 }
 
+.tv-screen .tv-menu-column {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vh, 2.5rem);
+  min-height: 0;
+}
+
 .tv-screen .tv-item-list {
   display: flex;
   flex-direction: column;

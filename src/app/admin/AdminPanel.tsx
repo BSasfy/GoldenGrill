@@ -197,6 +197,26 @@ export function MenuEditor({
             >
               {category.hidden ? "Show category" : "Hide category"}
             </button>
+            {catIndex > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  const categories = [...menu.categories];
+                  categories[catIndex] = {
+                    ...category,
+                    stackWithPrevious: !category.stackWithPrevious,
+                  };
+                  setMenu({ ...menu, categories });
+                }}
+                className="admin-btn-secondary rounded-md px-2 py-1 text-xs"
+                aria-pressed={Boolean(category.stackWithPrevious)}
+                title="Share a TV column with the category above"
+              >
+                {category.stackWithPrevious
+                  ? "Stacked under previous"
+                  : "Stack under previous"}
+              </button>
+            )}
             <button
               type="button"
               onClick={() => {
