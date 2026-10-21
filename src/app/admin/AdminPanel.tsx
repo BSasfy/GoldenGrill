@@ -53,6 +53,36 @@ export function MenuEditor({
   const [menu, setMenu] = useState(initialMenu);
   const [status, setStatus] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+  const [collapsedIds, setCollapsedIds] = useState<Set<string>>(() => new Set());
+  const [collapseAll, setCollapseAll] = useState(false);
+  const [collapseAllSnapshot, setCollapseAllSnapshot] = useState<Set<string> | null>(
+    null,
+  );
+
+  function toggleCategoryCollapsed(categoryId: string) {
+    setCollapsedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(categoryId)) next.delete(categoryId);
+      else next.add(categoryId);
+      return next;
+    });
+    if (collapseAll) {
+      setCollapseAll(false);
+      setCollapseAllSnapshot(null);
+    }
+  }
+
+  function handleCollapseAllChange(checked: boolean) {
+    if (checked) {
+      setCollapseAllSnapshot(new Set(collapsedIds));
+      setCollapsedIds(new Set(menu.categories.map((category) => category.id)));
+      setCollapseAll(true);
+      return;
+    }
+    setCollapsedIds(collapseAllSnapshot ?? new Set());
+    setCollapseAllSnapshot(null);
+    setCollapseAll(false);
+  }
 
   async function handleSave() {
     setSaving(true);
@@ -110,16 +140,27 @@ export function MenuEditor({
 
   return (
     <section className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="admin-heading text-2xl font-bold">Main menu</h2>
-        <button
-          type="button"
-          onClick={handleSave}
-          disabled={saving}
-          className="admin-btn-primary rounded-lg px-5 py-2 font-semibold transition disabled:opacity-60"
-        >
-          {saving ? "Saving…" : "Save menu"}
-        </button>
+        <div className="flex flex-wrap items-center gap-3">
+          <label className="admin-muted flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={collapseAll}
+              onChange={(e) => handleCollapseAllChange(e.target.checked)}
+              className="size-4 accent-[var(--admin-btn-bg)]"
+            />
+            Collapse all
+          </label>
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={saving}
+            className="admin-btn-primary rounded-lg px-5 py-2 font-semibold transition disabled:opacity-60"
+          >
+            {saving ? "Saving…" : "Save menu"}
+          </button>
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -143,13 +184,27 @@ export function MenuEditor({
 
       {menu.categories.map((category, catIndex) => {
         const atItemLimit = category.items.length >= MAX_ITEMS_PER_CATEGORY;
+        const isCollapsed = collapsedIds.has(category.id);
 
         return (
         <div
           key={category.id}
           className={`admin-card rounded-xl p-5 ${category.hidden ? "opacity-60" : ""}`}
         >
-          <div className="mb-4 flex flex-wrap items-center gap-3">
+          <div className={`flex flex-wrap items-center gap-3 ${isCollapsed ? "" : "mb-4"}`}>
+            <button
+              type="button"
+              onClick={() => toggleCategoryCollapsed(category.id)}
+              className="admin-btn-secondary rounded-md px-2 py-1 text-xs"
+              aria-expanded={!isCollapsed}
+              aria-label={
+                isCollapsed
+                  ? `Expand ${category.name || "category"}`
+                  : `Collapse ${category.name || "category"}`
+              }
+            >
+              {isCollapsed ? "▸" : "▾"}
+            </button>
             <input
               value={category.name}
               onChange={(e) => {
@@ -220,6 +275,22 @@ export function MenuEditor({
             <button
               type="button"
               onClick={() => {
+                const categories = [...menu.categories];
+                categories[catIndex] = {
+                  ...category,
+                  highlight: !category.highlight,
+                };
+                setMenu({ ...menu, categories });
+              }}
+              className="admin-btn-secondary rounded-md px-2 py-1 text-xs"
+              aria-pressed={Boolean(category.highlight)}
+              title="Emphasize this category title on the TV menu"
+            >
+              {category.highlight ? "Highlight on" : "Highlight title"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
                 const categories = menu.categories.filter((_, i) => i !== catIndex);
                 setMenu({ ...menu, categories });
               }}
@@ -229,6 +300,8 @@ export function MenuEditor({
             </button>
           </div>
 
+          {!isCollapsed && (
+          <>
           <div className="space-y-3">
             {category.items.map((item, itemIndex) => (
               <div
@@ -329,6 +402,24 @@ export function MenuEditor({
                     type="button"
                     onClick={() => {
                       const categories = [...menu.categories];
+                      const items = [...category.items];
+                      items[itemIndex] = {
+                        ...item,
+                        highlight: !item.highlight,
+                      };
+                      categories[catIndex] = { ...category, items };
+                      setMenu({ ...menu, categories });
+                    }}
+                    className="admin-btn-secondary rounded-md px-2 py-1 text-xs"
+                    aria-pressed={Boolean(item.highlight)}
+                    title="Apply shine and sway to this item name"
+                  >
+                    {item.highlight ? "Shine on" : "Shine"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const categories = [...menu.categories];
                       const items = category.items.filter((_, i) => i !== itemIndex);
                       categories[catIndex] = { ...category, items };
                       setMenu({ ...menu, categories });
@@ -356,6 +447,8 @@ export function MenuEditor({
               + Add item
             </button>
           )}
+          </>
+          )}
         </div>
         );
       })}
@@ -363,13 +456,17 @@ export function MenuEditor({
       <button
         type="button"
         onClick={() => {
+          const id = newId();
           setMenu({
             ...menu,
             categories: [
               ...menu.categories,
-              { id: newId(), name: "New category", items: [] },
+              { id, name: "New category", items: [] },
             ],
           });
+          if (collapseAll) {
+            setCollapsedIds((prev) => new Set(prev).add(id));
+          }
         }}
         className="admin-add-btn rounded-lg px-4 py-2 transition"
       >

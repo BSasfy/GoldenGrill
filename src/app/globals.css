@@ -133,6 +133,69 @@ body {
   border-bottom-width: clamp(1px, 0.2vh, 2px);
 }
 
+.tv-screen .tv-category-label {
+  display: inline-block;
+}
+
+.tv-screen .tv-shine {
+  --tv-shine-color: var(--tv-gold);
+  display: inline-block;
+  color: transparent;
+  background-image: linear-gradient(
+    125deg,
+    var(--tv-shine-color) 0%,
+    var(--tv-shine-color) 42%,
+    color-mix(in srgb, var(--tv-shine-color) 45%, #fff) 50%,
+    var(--tv-shine-color) 58%,
+    var(--tv-shine-color) 100%
+  );
+  /* 300% so shine is fully off-letter at both ends of travel */
+  background-size: 300% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation:
+    tv-shine-sheen 2.1s linear infinite,
+    tv-shine-sway 2.8s ease-in-out infinite;
+}
+
+.tv-screen .tv-item-name.tv-shine {
+  --tv-shine-color: var(--tv-fg);
+}
+
+@keyframes tv-shine-sheen {
+  /* Start/end both solid (shine off-screen) so the 0.5s hold doesn't jump */
+  0% {
+    background-position: 100% 0;
+  }
+  /* 1.6s travel + 0.5s pause = 2.1s */
+  76.19% {
+    background-position: 0% 0;
+  }
+  100% {
+    background-position: 0% 0;
+  }
+}
+
+@keyframes tv-shine-sway {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.45vw);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv-screen .tv-shine {
+    animation: none;
+    color: var(--tv-shine-color);
+    background-image: none;
+    -webkit-text-fill-color: var(--tv-shine-color);
+  }
+}
+
 .tv-screen .tv-item-price,
 .tv-screen .tv-price {
   color: var(--tv-gold);

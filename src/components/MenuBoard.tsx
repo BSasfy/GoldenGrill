@@ -14,7 +14,15 @@ function CategorySection({ category }: { category: MenuCategory }) {
   return (
     <section>
       <h2 className="tv-category border-b font-bold uppercase tracking-wider">
-        {category.name}
+        <span
+          className={
+            category.highlight
+              ? "tv-category-label tv-shine"
+              : "tv-category-label"
+          }
+        >
+          {category.name}
+        </span>
       </h2>
       <ul className="tv-item-list">
         {category.items
@@ -22,7 +30,13 @@ function CategorySection({ category }: { category: MenuCategory }) {
           .map((item) => (
             <li key={item.id}>
               <div className="flex items-baseline justify-between gap-4">
-                <span className="tv-item-name">{item.name}</span>
+                <span
+                  className={
+                    item.highlight ? "tv-item-name tv-shine" : "tv-item-name"
+                  }
+                >
+                  {item.name}
+                </span>
                 <span className="tv-item-price shrink-0">
                   {formatPrice(item.price)}
                 </span>

@@ -4,6 +4,7 @@ export interface MenuItem {
   description?: string;
   price: string;
   hidden?: boolean;
+  highlight?: boolean;
 }
 
 export interface MenuCategory {
@@ -11,6 +12,7 @@ export interface MenuCategory {
   name: string;
   hidden?: boolean;
   stackWithPrevious?: boolean;
+  highlight?: boolean;
   items: MenuItem[];
 }
 

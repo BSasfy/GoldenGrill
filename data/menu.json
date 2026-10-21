@@ -5,12 +5,14 @@
     {
       "id": "burgers",
       "name": "Burgers",
+      "highlight": true,
       "items": [
         {
           "id": "classic-burger",
           "name": "Classic Burger",
           "description": "Beef patty, lettuce, tomato, house sauce",
-          "price": "6.50"
+          "price": "6.50",
+          "highlight": true
         },
         {
           "id": "cheese-burger",
@@ -47,6 +49,20 @@
           "name": "Coleslaw",
           "description": "Creamy house recipe",
           "price": "2.00"
+        }
+      ]
+    },
+    {
+      "id": "soup",
+      "name": "Soup",
+      "stackWithPrevious": true,
+      "highlight": true,
+      "items": [
+        {
+          "id": "soup-of-the-day",
+          "name": "Soup of the day",
+          "description": "",
+          "price": "3.00"
         }
       ]
     },
